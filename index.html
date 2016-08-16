@@ -6,10 +6,10 @@
   <script src="device.js"></script>
   <style type="text/css">
 
-  html {
-    background: #eaeaea;
-    min-height: 100vh;
-    font-family: 'Roboto', Sans-Serif;
+html {
+  background: #eaeaea;
+  min-height: 100vh;
+  font-family: 'Roboto', Sans-Serif;
 }
 
 .scene {
@@ -45,6 +45,7 @@
   justify-content: space-between;
   color: white;
   padding: 0 1em;
+  box-sizing: border-box;
 }
 
 .html {
@@ -56,7 +57,7 @@
 .html .body {
   transition: all 0.5s;
   outline: 0 solid transparent;
-  padding: 1em;
+  border: 1em solid transparent;
   position: absolute;
   left: 0;
   right: 0;
@@ -81,14 +82,15 @@
   min-height: 100%;
 }
 .html .body.nomargin {
-  padding: 0;
+  border: 0 solid transparent;
 }
 
 .html.scroll {
-  overflow: hidden !important;
+  overflow: hidden;
 }
 .html.scroll .body {
   transform: translateZ(1000px) translateY(20px);  /* force into bg */
+  z-index: -100;
 }
 
 .html.bgcolor {
@@ -170,13 +172,6 @@
       break;
     case 6:
       html.classList.add('scroll');
-      window.setTimeout(function() {
-        html.classList.remove('scroll');
-      }, 0);
-      window.setTimeout(function() {
-        html.classList.add('scroll');
-      }, 10);
-//      html.classList.add('scroll');
       break;
     case 7:
       html.classList.add('bgcolor');

@@ -2,7 +2,8 @@ function shadowFor(el) {
   if (el.attachShadowRoot) {
     return el.attachShadowRoot();
   } else if (el.createShadowRoot) {
-    return el.createShadowRoot();
+    const user = el.createShadowRoot();
+    return user;
   }
   throw new Error('shadow DOM unsupported');
 }
