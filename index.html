@@ -103,7 +103,7 @@
 <body>
 
 <div class="scene flat" id="scene">
-<ts-device>
+<ts-device device="tablet">
 
 <div class="html">
   <div class="body">
@@ -131,9 +131,21 @@
 </ts-device>
 </div>
 
+  <button id="type">Type</button>
   <button id="toggle">Toggle</button>
 
   <script>
+
+  var device = document.querySelector('ts-device');
+
+  type.addEventListener('click', function() {
+    if (device.hasAttribute('device')) {
+      device.removeAttribute('device');
+    } else {
+      device.setAttribute('device', 'tablet');
+    }
+  });
+
   var step = 0;
 
   toggle.addEventListener('click', function() { 
