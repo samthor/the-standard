@@ -85,16 +85,12 @@ html {
   border: 0 solid transparent;
 }
 
-.html.scroll {
-  overflow: hidden;
-}
 .html.scroll .body {
-  transform: translateZ(1000px) translateY(20px);  /* force into bg */
-  z-index: -100;
+  transform: translateY(35px);
 }
 
 .html.bgcolor {
-  background: #888;
+  background: #9d2b23;
 }
 .html.bgcolor .body {
   background: rgba(233, 233, 233, 1.0);
@@ -109,7 +105,7 @@ html {
 
 <div class="html">
   <div class="body">
-    <div class="toolbar" style="background: red;">
+    <div class="toolbar" style="background: #f44336;">
       <span>Your Site</span>
       <span>🍌🌇</span>
     </div>
@@ -139,18 +135,11 @@ html {
   <script>
 
   var device = document.querySelector('ts-device');
-
-  type.addEventListener('click', function() {
-    if (device.hasAttribute('device')) {
-      device.removeAttribute('device');
-    } else {
-      device.setAttribute('device', 'tablet');
-    }
-  });
+  type.addEventListener('click', ev => device.stepDevice());
 
   var step = 0;
 
-  toggle.addEventListener('click', function() { 
+  toggle.addEventListener('click', function() {
     var html = document.querySelector('.html');
     var body = document.querySelector('.body');
 
@@ -169,6 +158,7 @@ html {
       break;
     case 5:
       scene.classList.remove('flat');
+      device.setAttribute('overflow', '');
       break;
     case 6:
       html.classList.add('scroll');

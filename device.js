@@ -14,10 +14,25 @@ function shadowFor(el) {
   return out;
 }
 
+/**
+ * Renders a mobile device that transforms well in 3D.
+ *
+ * Supports [device="tablet"], and [overflow] (which makes everything non-3d, but contains the
+ * contents of the screen.
+ */
 document.registerElement('ts-device', class extends HTMLElement {
   constructor() {
     super();
     this.holder_ = null;
+  }
+
+  stepDevice() {
+    const device = this.getAttribute('device');
+    if (device == 'tablet') {
+      this.removeAttribute('device');
+    } else {
+      this.setAttribute('device', 'tablet');
+    }
   }
 
   attributeChangedCallback(attrName, oldValue, newValue) {
@@ -152,6 +167,13 @@ document.registerElement('ts-device', class extends HTMLElement {
 }
 :host([device="tablet"]) .solid:before {
   bottom: -13px;
+}
+
+/** non-3d mode that allows hiding stuff */
+
+:host([overflow]) .size {
+  display: block;
+  overflow: hidden;
 }
 
 </style>
