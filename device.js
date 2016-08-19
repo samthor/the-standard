@@ -1,21 +1,17 @@
 function shadowFor(el) {
-  if (el.attachShadowRoot) {
-    return el.attachShadowRoot();
-  } else if (el.createShadowRoot) {
-    const user = el.createShadowRoot();
-    return user;
-  }
-  throw new Error('shadow DOM unsupported');
-}
+  const out = {root: null, holder: null};
 
-function holderName() {
-  const el = document.createElement('div');
   if (el.attachShadowRoot) {
-    return 'slot';
+    out.root = el.attachShadowRoot();
+    out.holder = '<slot></slot>';
   } else if (el.createShadowRoot) {
-    return 'content';
+    out.root = el.createShadowRoot();
+    out.holder = '<content></content>';
+  } else {
+    throw new Error('shadow DOM unsupported');
   }
-  throw new Error('shadow DOM unsupported');
+
+  return out;
 }
 
 document.registerElement('ts-device', class extends HTMLElement {
@@ -33,8 +29,7 @@ document.registerElement('ts-device', class extends HTMLElement {
   }
 
   createdCallback() {
-    const root = shadowFor(this);
-    const holder = holderName();
+    const {root, holder} = shadowFor(this);
 
     root.innerHTML = `
 <style>
@@ -85,14 +80,13 @@ document.registerElement('ts-device', class extends HTMLElement {
 
 .camera {
   position: absolute;
-  top: 10px;
+  top: 12px;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 24px;
   height: 24px;
   background: #c2c2c2;
   border-radius: 100px;
-  transition: all 0.5s;
 }
 
 .size {
@@ -170,9 +164,7 @@ document.registerElement('ts-device', class extends HTMLElement {
     </div>
     <div class="camera"></div>
     <div class="border">
-      <div class="size" id="contents">
-        <${holder}></${holder}>
-      </div>
+      <div class="size" id="contents">${holder}</div>
     </div>
   </div>
 </div>
