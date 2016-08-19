@@ -17,14 +17,11 @@ function shadowFor(el) {
 document.registerElement('ts-device', class extends HTMLElement {
   constructor() {
     super();
-    this.device_ = null;
+    this.holder_ = null;
   }
 
   attributeChangedCallback(attrName, oldValue, newValue) {
     switch (attrName) {
-    case 'device':
-      this.holder_.setAttribute('device', newValue);
-      break;
     }
   }
 
@@ -138,21 +135,22 @@ document.registerElement('ts-device', class extends HTMLElement {
 
 /** tablet device */
 
-.holder[device="tablet"] .device:before {
+:host([device="tablet"]) .device:before {
   border-radius: 1000px;
 }
-.holder[device="tablet"] .device:after {
+:host([device="tablet"]) .device:after {
   border-radius: 1000px;
 }
 
-.holder[device="tablet"] .solid:after, .holder[device="tablet"] .solid:before {
+:host([device="tablet"]) .solid:after,
+:host([device="tablet"]) .solid:before {
   left: 6px;
   right: 6px;
 }
-.holder[device="tablet"] .solid:after {
+:host([device="tablet"]) .solid:after {
   top: -13px;
 }
-.holder[device="tablet"] .solid:before {
+:host([device="tablet"]) .solid:before {
   bottom: -13px;
 }
 
@@ -172,7 +170,7 @@ document.registerElement('ts-device', class extends HTMLElement {
 
     this.holder_ = root.querySelector('div.holder');
 
-    const attrs = 'device';
-    attrs.split().forEach(attr => this.attributeChangedCallback(attr, undefined, this.getAttribute(attr)));
+    // const attrs = 'device';
+    // attrs.split().forEach(attr => this.attributeChangedCallback(attr, undefined, this.getAttribute(attr)));
   }
 });
