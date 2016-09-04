@@ -6,25 +6,14 @@
   <script src="shared.js"></script>
   <script src="elements/device.js"></script>
   <script src="elements/scene.js"></script>
+  <script src="elements/page.js"></script>
+  <script src="elements/lines.js"></script>
   <style type="text/css">
 
 html {
   background: #eaeaea;
   min-height: 100vh;
   font-family: 'Roboto', Sans-Serif;
-}
-
-.line {
-  background: #ddd;
-  height: 0.8em;
-  border-radius: 100px;
-  margin: 0.4em 0.8em;
-}
-.line.big {
-  font-size: 24px;
-  background: #ccc;
-  margin: 0.5em;
-  width: 40%;
 }
 
 .toolbar {
@@ -38,13 +27,12 @@ html {
   box-sizing: border-box;
 }
 
-.html {
-  min-height: 100%;
+ts-page {
   transition: all 0.5s;
-  transform-style: preserve-3d;
   outline: 0 solid transparent;
 }
-.html .body {
+
+ts-page .body {
   transition: all 0.5s;
   outline: 0 solid transparent;
   border: 1em solid transparent;
@@ -54,35 +42,37 @@ html {
   min-height: 0%;
   background: rgba(233, 233, 233, 0.9);
   overflow: hidden;
+  box-sizing: border-box;
+  padding-bottom: 3em;
 }
 
-.highlight.html {
+ts-page.highlight {
   outline: 4px solid blue;
   z-index: -100;
   transform: translateZ(20px);
   background: rgba(255, 255, 255, 0.75);
 }
-.highlight.html .body {
+ts-page.highlight .body {
   z-index: 100;
   outline: 8px solid green;
   transform: translateZ(20px);
 }
 
-.html .body.height {
+ts-page .body.height {
   min-height: 100%;
 }
-.html .body.nomargin {
+ts-page .body.nomargin {
   border: 0 solid transparent;
 }
 
-.html.scroll .body {
+ts-page.scroll .body {
   transform: translateY(35px);
 }
 
-.html.bgcolor {
+ts-page.bgcolor {
   background: #9d2b23;
 }
-.html.bgcolor .body {
+ts-page.bgcolor .body {
   background: rgba(233, 233, 233, 1.0);
 }
 
@@ -92,30 +82,23 @@ html {
 
 <ts-scene id="scene" class="flat">
   <ts-device device="tablet">
+    <ts-page>
 
-<div class="html">
-  <div class="body">
-    <div class="toolbar" style="background: #f44336;">
-      <span>Your Site</span>
-      <span>🍌🌇</span>
-    </div>
+<div class="body">
+  <div class="toolbar" style="background: #f44336;">
+    <span>Your Site</span>
+    <span>🍌🌇</span>
+  </div>
+  
+  <ts-lines rows="8">
+  </ts-lines>
 
-    <div class="line big"></div>
-    <div class="line"></div>
-    <div class="line"></div>
-    <p></p>
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
-    <p style="height: 20px;"></p>
-
-    <div class="toolbar" style="position: absolute; bottom: 0; width: 100%;">
-      <span>(c) Banana</span>
-    </div>
+  <div class="toolbar" style="position: absolute; bottom: 0; width: 100%;">
+    <span>(c) Banana</span>
   </div>
 </div>
 
+    </ts-page>
   </ts-device>
 </ts-scene>
 
@@ -130,7 +113,7 @@ html {
   var step = 0;
 
   toggle.addEventListener('click', function() {
-    var html = document.querySelector('.html');
+    var html = document.querySelector('ts-page');
     var body = document.querySelector('.body');
 
     switch (++step) {
