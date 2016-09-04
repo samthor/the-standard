@@ -4,6 +4,7 @@
   <title>The Standard</title>
   <meta name="viewport" content="width=device-width, user-scalable=no" />
   <script src="shared.js"></script>
+  <script src="scripts.js"></script>
   <script src="elements/device.js"></script>
   <script src="elements/scene.js"></script>
   <script src="elements/page.js"></script>
@@ -15,100 +16,112 @@ html {
   min-height: 100vh;
   font-family: 'Roboto', Sans-Serif;
 }
-
-.toolbar {
-  background: #999;
-  height: 2em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  padding: 0 1em;
-  box-sizing: border-box;
+body {
+  margin: 0;
 }
 
-ts-page {
-  transition: all 0.5s;
-  outline: 0 solid transparent;
-}
-
-ts-page .body {
-  transition: all 0.5s;
-  outline: 0 solid transparent;
-  border: 1em solid transparent;
-  position: absolute;
+header {
+  position: fixed;
+  bottom: 0;
   left: 0;
-  right: 0;
-  min-height: 0%;
-  background: rgba(233, 233, 233, 0.9);
-  overflow: hidden;
-  box-sizing: border-box;
-  padding-bottom: 3em;
+  width: 100%;
+  background: #ccc;
+  padding: 8px;
 }
 
-ts-page.highlight {
-  outline: 4px solid blue;
-  z-index: -100;
-  transform: translateZ(20px);
-  background: rgba(255, 255, 255, 0.75);
-}
-ts-page.highlight .body {
-  z-index: 100;
-  outline: 8px solid green;
-  transform: translateZ(20px);
-}
-
-ts-page .body.height {
-  min-height: 100%;
-}
-ts-page .body.nomargin {
-  border: 0 solid transparent;
-}
-
-ts-page.scroll .body {
-  transform: translateY(35px);
-}
-
-ts-page.bgcolor {
-  background: #9d2b23;
-}
-ts-page.bgcolor .body {
-  background: rgba(233, 233, 233, 1.0);
+ts-scene[disabled] {
+  opacity: 0.25;
 }
 
 </style>
 </head>
 <body>
 
-<ts-scene id="scene" scene="flat">
+<header>
+  <button id="type">Device</button>
+  <button id="toggle">Toggle</button>
+  <select id="videos">
+    <option value="">▶︎ Showcase</option>
+    <option value="TS003">Fit To Page</option>
+    <option value="TS006">Align Content Vertically</option>
+  </select>
+</header>
+
+<ts-scene id="scene" disabled>
   <ts-device device="tablet">
     <ts-page>
-
-<div class="body">
-  <div class="toolbar" style="background: #f44336;">
-    <span>Your Site</span>
-    <span>🍌🌇</span>
-  </div>
-  
-  <ts-lines rows="8">
-  </ts-lines>
-
-  <div class="toolbar" style="position: absolute; bottom: 0; width: 100%;">
-    <span>(c) Banana</span>
-  </div>
-</div>
-
     </ts-page>
   </ts-device>
 </ts-scene>
 
-  <button id="type">Type</button>
-  <button id="toggle">Toggle</button>
-
   <script>
 
-  var device = document.querySelector('ts-device');
-  type.addEventListener('click', ev => device.stepDevice());
+const sceneInterval = 1000;
+
+let interval;
+const select = document.querySelector('select#videos');
+select.addEventListener('change', ev => {
+  window.clearInterval(interval);
+
+  const scene = document.querySelector('ts-scene');
+  const device = scene.querySelector('ts-device');
+  const page = device.querySelector('ts-page');
+
+  function reset() {
+    page.class = '';
+    scene.scene = null;
+    device.overflow = false;
+  }
+
+  if (!select.value) {
+    page.html = '';
+    page.css = '';
+    return reset();
+  }
+
+  const s = scripts[select.value];
+  if (!s) {
+    throw new Error('no script for: ' + select.value);
+  }
+
+  const result = {};
+
+  const fetchHTML = window.fetch(`scripts/${select.value}.html`)
+      .then(out => out.text())
+      .then(v => { result.html = v; });
+
+  const fetchCSS = window.fetch(`scripts/${select.value}.css`)
+      .then(out => out.text())
+      .then(v => { result.css = v; });
+
+  Promise.all([fetchHTML, fetchCSS]).then(_ => {
+    page.html = result.html;
+    page.css = result.css;
+  }).then(_ => {
+    let i = -1;
+    interval = window.setInterval(function() {
+      if (i == -1) {
+        reset();
+        scene.removeAttribute('disabled');
+      } else if (i == s.length) {
+        scene.setAttribute('disabled', '');
+        i = -1;
+        return;
+      } else {
+        const frame = s[i];
+        if (frame.class) { page.class = frame.class; }
+        if ('scene' in frame) { scene.scene = frame.scene; }
+        if ('overflow' in frame) { device.overflow = frame.overflow; }
+      }
+
+      console.info('frame', i);
+      ++i;
+    }, sceneInterval);
+  });
+});
+
+const device = document.querySelector('ts-device');
+document.querySelector('button#type').addEventListener('click', ev => device.stepDevice());
 
   var step = 0;
 

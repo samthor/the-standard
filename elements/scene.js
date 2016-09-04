@@ -2,6 +2,14 @@
  * Scene element to portray contents in 3D space.
  */
 document.registerElement('ts-scene', class extends HTMLElement {
+  set scene(v) {
+    if (v) {
+      this.setAttribute('scene', v);
+    } else {
+      this.removeAttribute('scene');
+    }
+  }
+
   createdCallback() {
     const {root, holder} = shadowFor(this);
 

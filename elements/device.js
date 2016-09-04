@@ -24,6 +24,14 @@ document.registerElement('ts-device', class extends HTMLElement {
     }
   }
 
+  set overflow(value) {
+    if (value) {
+      this.setAttribute('overflow', '');
+    } else {
+      this.removeAttribute('overflow');
+    }
+  }
+
   createdCallback() {
     const {root, holder} = shadowFor(this);
 
