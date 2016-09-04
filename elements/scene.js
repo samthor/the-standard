@@ -25,6 +25,9 @@ document.registerElement('ts-scene', class extends HTMLElement {
 :host([scene="flat"]) {
   transform: scale(0.75) rotateX(55deg) rotateZ(45deg);
 }
+:host([scene="side"]) {
+  transform: rotateX(-10deg) rotateY(10deg) scale(1.0);
+}
 </style>
 ${holder}
     `;

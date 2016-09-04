@@ -13,5 +13,15 @@
       {"class": "nomargin bgcolor scroll"},
       {"class": "nomargin bgcolor"}
     ]
+  },
+  "TS006": {
+    "name": "Align Content Vertically",
+    "frames": [
+      {"scene": "side"},
+      {"class": "highlight"},
+      {"class": "highlight raised"},
+      {"class": "highlight raised position"},
+      {"class": "position"}
+    ]
   }
 }

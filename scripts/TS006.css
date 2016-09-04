@@ -1,0 +1,58 @@
+
+#holder {
+  height: 200px;
+  margin: 24px;
+  transition: all 0.5s;
+  border: 4px solid transparent;
+  background: #eee;
+}
+
+.highlight #holder {
+  border-color: red;
+}
+
+#logo {
+  background: url(assets/chrome.png) center no-repeat;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  transform-style: preserve-3d;
+  position: relative;
+  transform: translateZ(0);
+  transition: all 0.5s;
+
+  left: 0;
+  top: 0;
+  margin-left: 0;
+  margin-top: 0;
+}
+
+#logo:before {
+  content: '';
+  background: inherit;
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateZ(0);
+  filter: blur(4px);
+  opacity: 0;
+  transition: inherit;
+}
+
+.raised #logo {
+  transform: translateZ(20px);
+}
+
+.raised #logo:before {
+  opacity: 0.33;
+  transform: translateZ(-20px);
+}
+
+.position #logo {
+  left: 50%;
+  top: 50%;
+  margin-left: -50px;
+  margin-top: -50px;
+}
