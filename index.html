@@ -4,7 +4,6 @@
   <title>The Standard</title>
   <meta name="viewport" content="width=device-width, user-scalable=no" />
   <script src="shared.js"></script>
-  <script src="scripts.js"></script>
   <script src="elements/device.js"></script>
   <script src="elements/scene.js"></script>
   <script src="elements/page.js"></script>
@@ -42,8 +41,6 @@ ts-scene[disabled] {
   <button id="toggle">Toggle</button>
   <select id="videos">
     <option value="">▶︎ Showcase</option>
-    <option value="TS003">Fit To Page</option>
-    <option value="TS006">Align Content Vertically</option>
   </select>
 </header>
 
@@ -54,9 +51,21 @@ ts-scene[disabled] {
   </ts-device>
 </ts-scene>
 
-  <script>
+<script>
 
 const sceneInterval = 1000;
+let scripts;
+
+window.fetch('scripts.json').then(out => out.json()).then(out => {
+  scripts = out;  // save global
+  const keys = Object.keys(out).sort();
+  for (const id of keys) {
+    const option = document.createElement('option');
+    option.value = id;
+    option.text = out[id].name;
+    videos.add(option);
+  }
+});
 
 let interval;
 const select = document.querySelector('select#videos');
@@ -79,18 +88,19 @@ select.addEventListener('change', ev => {
     return reset();
   }
 
-  const s = scripts[select.value];
+  const id = select.value;
+  const s = scripts[id];
   if (!s) {
-    throw new Error('no script for: ' + select.value);
+    throw new Error('no script for: ' + id);
   }
 
   const result = {};
 
-  const fetchHTML = window.fetch(`scripts/${select.value}.html`)
+  const fetchHTML = window.fetch(`scripts/${id}.html`)
       .then(out => out.text())
       .then(v => { result.html = v; });
 
-  const fetchCSS = window.fetch(`scripts/${select.value}.css`)
+  const fetchCSS = window.fetch(`scripts/${id}.css`)
       .then(out => out.text())
       .then(v => { result.css = v; });
 
@@ -100,21 +110,25 @@ select.addEventListener('change', ev => {
   }).then(_ => {
     let i = -1;
     interval = window.setInterval(function() {
-      if (i == -1) {
+      switch (i) {
+      case -1:
+        console.info(id, 'start frame');
+        i = 0;
         reset();
         scene.removeAttribute('disabled');
-      } else if (i == s.length) {
-        scene.setAttribute('disabled', '');
-        i = -1;
         return;
-      } else {
-        const frame = s[i];
-        if (frame.class) { page.class = frame.class; }
-        if ('scene' in frame) { scene.scene = frame.scene; }
-        if ('overflow' in frame) { device.overflow = frame.overflow; }
+      case s.frames.length:
+        console.info(id, 'last frame');
+        i = -1;
+        scene.setAttribute('disabled', '');
+        return;
       }
 
-      console.info('frame', i);
+      console.info(id, 'frame', i);
+      const frame = s.frames[i];
+      if (frame.class) { page.class = frame.class; }
+      if ('scene' in frame) { scene.scene = frame.scene; }
+      if ('overflow' in frame) { device.overflow = frame.overflow; }
       ++i;
     }, sceneInterval);
   });
@@ -123,43 +137,7 @@ select.addEventListener('change', ev => {
 const device = document.querySelector('ts-device');
 document.querySelector('button#type').addEventListener('click', ev => device.stepDevice());
 
-  var step = 0;
-
-  toggle.addEventListener('click', function() {
-    var html = document.querySelector('ts-page');
-    var body = document.querySelector('.body');
-
-    switch (++step) {
-    case 1:
-      html.classList.add('highlight');
-      break;
-    case 2:
-      body.classList.add('height');
-      break;
-    case 3:
-      body.classList.add('nomargin');
-      break;
-    case 4:
-      html.classList.remove('highlight');
-      break;
-    case 5:
-      scene.removeAttribute('scene');
-      device.setAttribute('overflow', '');
-      break;
-    case 6:
-      html.classList.add('scroll');
-      break;
-    case 7:
-      html.classList.add('bgcolor');
-      break;
-    case 8:
-      html.classList.remove('scroll');
-      break;
-    }
-
-
-  });
-  </script>
+</script>
 
 </body>
 </html>
