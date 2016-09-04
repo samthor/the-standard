@@ -1,19 +1,3 @@
-function shadowFor(el) {
-  const out = {root: null, holder: null};
-
-  if (el.attachShadowRoot) {
-    out.root = el.attachShadowRoot();
-    out.holder = '<slot></slot>';
-  } else if (el.createShadowRoot) {
-    out.root = el.createShadowRoot();
-    out.holder = '<content></content>';
-  } else {
-    throw new Error('shadow DOM unsupported');
-  }
-
-  return out;
-}
-
 /**
  * Renders a mobile device that transforms well in 3D.
  *

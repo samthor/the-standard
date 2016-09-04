@@ -3,25 +3,15 @@
 <head>
   <title>The Standard</title>
   <meta name="viewport" content="width=device-width, user-scalable=no" />
-  <script src="device.js"></script>
+  <script src="shared.js"></script>
+  <script src="elements/device.js"></script>
+  <script src="elements/scene.js"></script>
   <style type="text/css">
 
 html {
   background: #eaeaea;
   min-height: 100vh;
   font-family: 'Roboto', Sans-Serif;
-}
-
-.scene {
-  transform-style: preserve-3d;
-  transform-origin: 50% 50%;
-  transition: transform 0.5s cubic-bezier(0.87,-0.41,0.19,1.44);
-  display: flex;
-  justify-content: center;
-}
-
-.scene.flat {
-  transform: scale(0.75) rotateX(55deg) rotateZ(45deg);
 }
 
 .line {
@@ -100,8 +90,8 @@ html {
 </head>
 <body>
 
-<div class="scene flat" id="scene">
-<ts-device device="tablet">
+<ts-scene id="scene" class="flat">
+  <ts-device device="tablet">
 
 <div class="html">
   <div class="body">
@@ -126,8 +116,8 @@ html {
   </div>
 </div>
 
-</ts-device>
-</div>
+  </ts-device>
+</ts-scene>
 
   <button id="type">Type</button>
   <button id="toggle">Toggle</button>
