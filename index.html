@@ -80,7 +80,7 @@ ts-page.bgcolor .body {
 </head>
 <body>
 
-<ts-scene id="scene" class="flat">
+<ts-scene id="scene" scene="flat">
   <ts-device device="tablet">
     <ts-page>
 
@@ -130,7 +130,7 @@ ts-page.bgcolor .body {
       html.classList.remove('highlight');
       break;
     case 5:
-      scene.classList.remove('flat');
+      scene.removeAttribute('scene');
       device.setAttribute('overflow', '');
       break;
     case 6:

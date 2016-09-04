@@ -14,7 +14,7 @@ document.registerElement('ts-scene', class extends HTMLElement {
   display: flex;
   justify-content: center;
 }
-:host(.flat) {
+:host([scene="flat"]) {
   transform: scale(0.75) rotateX(55deg) rotateZ(45deg);
 }
 </style>
