@@ -40,7 +40,7 @@ ts-scene[disabled] {
   <button id="type">Device</button>
   <button id="toggle">Toggle</button>
   <select id="videos">
-    <option value="">▶︎ Showcase</option>
+    <option value="">▶︎ Choose</option>
   </select>
 </header>
 
@@ -65,13 +65,34 @@ window.fetch('scripts.json').then(out => out.json()).then(out => {
     option.text = out[id].name;
     videos.add(option);
   }
+
+  if (window.location.hash) {
+    window.dispatchEvent(new CustomEvent('hashchange'));
+  }
 });
 
-let interval;
+window.addEventListener('hashchange', function() {
+  console.info('hashchange', window.location.hash);
+  const part = window.location.hash.substr(1);
+  if (part in scripts) {
+    select.value = part;
+  } else {
+    select.value = '';
+  }
+  playVideo(part);
+});
+
 const select = document.querySelector('select#videos');
 select.addEventListener('change', ev => {
-  window.clearInterval(interval);
+  if (select.value) {
+    window.location.hash = `#${select.value}`;
+  } else {
+    window.history.pushState(null, null, '/');
+    playVideo('');
+  }
+});
 
+const playVideo = (function() {
   const scene = document.querySelector('ts-scene');
   const device = scene.querySelector('ts-device');
   const page = device.querySelector('ts-page');
@@ -82,57 +103,62 @@ select.addEventListener('change', ev => {
     device.overflow = false;
   }
 
-  if (!select.value) {
-    page.html = '';
-    page.css = '';
-    return reset();
-  }
+  let interval;
+  return function(id) {
+    console.info('got id', id);
+    window.clearInterval(interval);
 
-  const id = select.value;
-  const s = scripts[id];
-  if (!s) {
-    throw new Error('no script for: ' + id);
-  }
+    if (!id) {
+      page.html = '';
+      page.css = '';
+      return reset();
+    }
 
-  const result = {};
+    const s = scripts[id];
+    if (!s) {
+      throw new Error('no script for: ' + id);
+    }
 
-  const fetchHTML = window.fetch(`scripts/${id}.html`)
-      .then(out => out.text())
-      .then(v => { result.html = v; });
+    const result = {};
 
-  const fetchCSS = window.fetch(`scripts/${id}.css`)
-      .then(out => out.text())
-      .then(v => { result.css = v; });
+    const fetchHTML = window.fetch(`scripts/${id}.html`)
+        .then(out => out.text())
+        .then(v => { result.html = v; });
 
-  Promise.all([fetchHTML, fetchCSS]).then(_ => {
-    page.html = result.html;
-    page.css = result.css;
-  }).then(_ => {
-    let i = -1;
-    interval = window.setInterval(function() {
-      switch (i) {
-      case -1:
-        console.info(id, 'start frame');
-        i = 0;
-        reset();
-        scene.removeAttribute('disabled');
-        return;
-      case s.frames.length:
-        console.info(id, 'last frame');
-        i = -1;
-        scene.setAttribute('disabled', '');
-        return;
-      }
+    const fetchCSS = window.fetch(`scripts/${id}.css`)
+        .then(out => out.text())
+        .then(v => { result.css = v; });
 
-      console.info(id, 'frame', i);
-      const frame = s.frames[i];
-      if (frame.class) { page.class = frame.class; }
-      if ('scene' in frame) { scene.scene = frame.scene; }
-      if ('overflow' in frame) { device.overflow = frame.overflow; }
-      ++i;
-    }, sceneInterval);
-  });
-});
+    Promise.all([fetchHTML, fetchCSS]).then(_ => {
+      page.html = result.html;
+      page.css = result.css;
+    }).then(_ => {
+      let i = -1;
+      interval = window.setInterval(function() {
+        switch (i) {
+        case -1:
+          console.info(id, 'start frame');
+          i = 0;
+          reset();
+          scene.removeAttribute('disabled');
+          return;
+        case s.frames.length:
+          console.info(id, 'last frame');
+          i = -1;
+          scene.setAttribute('disabled', '');
+          return;
+        }
+
+        console.info(id, 'frame', i);
+        const frame = s.frames[i];
+        if (frame.class) { page.class = frame.class; }
+        if ('scene' in frame) { scene.scene = frame.scene; }
+        if ('overflow' in frame) { device.overflow = frame.overflow; }
+        ++i;
+      }, sceneInterval);
+    });
+  };
+}());
 
 const device = document.querySelector('ts-device');
 document.querySelector('button#type').addEventListener('click', ev => device.stepDevice());
