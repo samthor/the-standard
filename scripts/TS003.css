@@ -1,0 +1,64 @@
+#html {
+  transition: all 0.5s;
+  outline: 0 solid transparent;
+}
+
+#body {
+  transition: all 0.5s;
+  outline: 0 solid transparent;
+  border: 1em solid transparent;
+  position: absolute;
+  left: 0;
+  right: 0;
+  min-height: 0%;
+  background: rgba(233, 233, 233, 1.0);
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-bottom: 3em;
+}
+
+.toolbar {
+  background: #999;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  padding: 0 1em;
+  box-sizing: border-box;
+}
+
+/** #1 */
+.highlight #html {
+  outline: 4px solid blue;
+  z-index: -100;
+  transform: translateZ(20px);
+  background: rgba(255, 255, 255, 0.75);
+}
+.highlight #body {
+  z-index: 100;
+  outline: 8px solid green;
+  transform: translateZ(20px);
+  background: rgba(233, 233, 233, 0.9);
+}
+
+/** #2 */
+.height #body {
+  min-height: 110%;
+}
+
+/** #3 */
+.nomargin #body {
+  min-height: 100%;
+  border: 0 solid transparent;
+}
+
+/** #4 */
+.scroll #body {
+  transform: translateY(35px);
+}
+
+/** #5 */
+.bgcolor #html {
+  background: #9d2b23;
+}
