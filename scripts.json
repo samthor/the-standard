@@ -18,9 +18,12 @@
     "name": "Icon Fonts",
     "frames": [
       {"scene": "side"},
-      {"class": "icons"},
-      {"class": "icons maze"},
-      {"class": "icons maze alt"}
+      {"class": "pageicons"},
+      {"class": "pageicons", "note": "dummy extra for more time"},
+      {"class": "pageicons icons"},
+      {"class": "pageicons icons changer"},
+      {"class": "changer icons pageicons maze"},
+      {"class": "changer icons pageicons maze alt"}
     ]
   },
   "TS006": {
