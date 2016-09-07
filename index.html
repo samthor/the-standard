@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title>The Standard</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, user-scalable=no" />
   <script src="shared.js"></script>
   <script src="elements/device.js"></script>
@@ -20,8 +21,9 @@ body {
 }
 
 header {
-  position: fixed;
-  bottom: 0;
+  z-index: 1000;
+  position: absolute;
+  top: 100vh;
   left: 0;
   width: 100%;
   background: #ccc;
@@ -53,7 +55,7 @@ ts-scene[disabled] {
 
 <script>
 
-const sceneInterval = 1000;
+const sceneInterval = 2500;
 let scripts;
 
 window.fetch('scripts.json').then(out => out.json()).then(out => {

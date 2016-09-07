@@ -9,7 +9,23 @@ document.registerElement('ts-page', class extends HTMLElement {
 <style>
 #html {
   min-height: 100%;
+  height: 100%;
   transform-style: preserve-3d;
+}
+</style>
+<style>
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
 }
 </style>
 <div style="height: 100%">

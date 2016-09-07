@@ -1,0 +1,129 @@
+.buttons {
+  background: #0091ea;
+  color: white;
+  padding: 0.5em;
+  box-sizing: border-box;
+}
+
+.buttons button {
+  border: 0;
+  font: inherit;
+  line-height: 2em;
+  padding: 0 0.5em;
+  background: #eee;
+  border-radius: 1px;
+  position: relative;
+  transition: all 0.5s;
+  min-width: 32px;
+  display: inline-block;
+  margin-right: 8px;
+  transition: all 0.5s;
+  transform: translateZ(10px);
+  transform-style: preserve-3d;
+}
+
+.buttons button:before {
+  content: '';
+  transform: translateZ(-10px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  opacity: 0.66;
+  filter: blur(4px);
+}
+
+.buttons button text {
+  transition: all 0.5s;
+  display: block;
+  overflow: hidden;
+  max-width: 180px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buttons button i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 1000px;
+  width: 32px;
+  background: rgba(255, 255, 255, 0.75);
+  transform: translateZ(1000px);
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+#maze {
+  text-align: center;
+  margin: 2em;
+  transform: translateZ(10000px);
+  transition: all 0.5s;
+  opacity: 0;
+}
+#maze i {
+  font-size: 128px;
+  font-weight: 500;
+}
+
+#alt {
+  background: #0091ea;
+  color: white;
+  padding: 0.5em;
+  border-radius: 2px;
+  position: absolute;
+  left: 50%;
+  transform-style: preserve-3d;
+  top: 100%;
+  transform: translateX(-50%) translateZ(10px);
+  opacity: 0;
+  transition: all 0.5s;
+}
+#alt:before {
+  content: '';
+  position: absolute;
+  transform: rotate(45deg);
+  width: 12px;
+  height: 12px;
+  top: -6px;
+  left: calc(50% - 6px);
+  background: inherit;
+}
+#alt:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #333;
+  filter: blur(2px);
+  opacity: 0.25;
+  transform: translateZ(-10px);
+}
+
+/** #1 */
+
+.icons .buttons button text {
+  max-width: 0px;
+}
+.icons .buttons button i {
+  transform: translateZ(0px);
+  opacity: 1.0;
+  background: transparent;
+}
+
+/** #2 */
+
+.maze #maze {
+  transform: translateZ(0);
+  opacity: 1;
+}
+
+/** #3 */
+
+.alt #alt {
+  opacity: 1;
+}

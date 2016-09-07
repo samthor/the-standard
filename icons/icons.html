@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Icon</title>
+  <link rel="icon" href="favicon-128.png" sizes="128x128" />
+  <link rel="icon" href="favicon-32.png" sizes="32x32" />
+  <link rel="icon" href="favicon-16.png" sizes="16x16" />
+</head>
+<body>
+
+  Icons!
+
+  <button id="change">Change</button>
+
+  <script>
+change.addEventListener('click', function() {
+  // var all = [].slice.call(document.head.querySelectorAll('link[rel="icon"]'));
+  // all.forEach(x => x.remove());
+
+
+  var title = document.head.querySelector('title');
+
+  var link = document.createElement('link');
+  link.rel = 'icon';
+  link.href = 'nicky.png';
+  link.sizes = '64x64';
+  document.head.insertBefore(link, title);
+
+});
+  </script>
+
+</body>
+</html>
