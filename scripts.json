@@ -1,4 +1,10 @@
 {
+  "TS001": {
+    "name": "Form Validation",
+    "frames": [
+      {}
+    ]
+  },
   "TS003": {
     "name": "Fit To Page",
     "frames": [
