@@ -1,0 +1,87 @@
+header {
+  padding: 12px 18px;
+}
+
+h1 {
+  margin: 0;
+  font-family: "Lobster";
+  border: 2px solid transparent;
+  text-align: center;
+  transition: all 0.5s;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+#holder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  flex-flow: column;
+  padding: 1em;
+}
+img {
+  border: 2px solid transparent;
+  border-radius: 1px;
+  transition: all 0.5s;
+}
+.caption {
+  font-size: 12px;
+  border: 2px solid transparent;
+  margin: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.5s;
+}
+
+/** #1 */
+
+.layers #html {
+  outline: 2px green solid;
+}
+.layers h1 {
+  border-color: red;
+  transform: translateZ(10px) rotate(0deg);
+}
+.layers img {
+  border-color: blue;
+  transform: translateZ(15px);
+}
+.layers .caption {
+  border-color: purple;
+  transform: translateZ(10px);
+}
+
+@keyframes mover {
+  0%   { transform: translateZ(15px); opacity: 1.0; }
+  20%  { transform: translateZ(15px) rotateX(-45deg); opacity: 1.0; }
+  40%  { transform: translateZ(15px) rotateX(-45deg); opacity: 1.0; }
+  60%  { transform: translateZ(15px) rotateX(-45deg); opacity: 0.25; }
+  80%  { transform: translateZ(15px) rotateX(-45deg); opacity: 0.25; }
+  100% { transform: translateZ(15px); opacity: 1.0; }
+}
+
+/** #2 */
+
+.move img {
+  animation: mover 5s;
+}
+.move h1 {
+  transition: all 1s;
+  transition-delay: 0.5s;
+  transform: translateZ(10px) rotate(530deg);
+}
+.move .caption {
+  transform: translateZ(10px) translateY(20px);
+}
+
+/** #2 */
+
+@keyframes flash {
+  0%   { filter: none; }
+  5%  { filter: brightness(20.0); }
+  100% { filter: none; }
+}
+
+.flash img {
+  animation: flash 1s;
+  animation-delay: 0.5s;
+}

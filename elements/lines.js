@@ -3,17 +3,19 @@
  */
 document.registerElement('ts-lines', class extends HTMLElement {
   attributeChangedCallback(attrName, oldValue, newValue) {
-    if (attrName != 'rows') { return; }
+    if (['rows', 'plain'].indexOf(attrName) == -1) { return; }
 
     this.holder_.innerText = '';
-    const count = +newValue;
+    const count = +this.getAttribute('rows');
 
     for (let i = 0; i < count; ++i) {
       const d = document.createElement('div');
       d.className = 'line';
 
       if (i == 0) {
-        d.classList.add('big');
+        if (!this.hasAttribute('plain')) {
+          d.classList.add('big');
+        }
       } else if (!(i % 3)) {
         d.classList.add('end')
       }

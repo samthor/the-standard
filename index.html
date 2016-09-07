@@ -3,6 +3,7 @@
 <head>
   <title>The Standard</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, user-scalable=no" />
   <script src="shared.js"></script>
   <script src="elements/device.js"></script>
@@ -108,7 +109,7 @@ const playVideo = (function() {
   let interval;
   return function(id) {
     console.info('got id', id);
-    window.clearInterval(interval);
+    window.clearTimeout(interval);
 
     if (!id) {
       page.html = '';
@@ -136,27 +137,33 @@ const playVideo = (function() {
       page.css = result.css;
     }).then(_ => {
       let i = -1;
-      interval = window.setInterval(function() {
+      interval = window.setTimeout(function draw() {
+        let nextDelay = sceneInterval;
+
         switch (i) {
         case -1:
           console.info(id, 'start frame');
           i = 0;
           reset();
           scene.removeAttribute('disabled');
-          return;
+          break;
         case s.frames.length:
           console.info(id, 'last frame');
           i = -1;
           scene.setAttribute('disabled', '');
-          return;
+          break;
+        default:
+          console.info(id, 'frame', i);
+          const frame = s.frames[i];
+          if ('class' in frame) { page.class = frame.class; }
+          if ('scene' in frame) { scene.scene = frame.scene; }
+          if ('overflow' in frame) { device.overflow = frame.overflow; }
+          if ('delay' in frame) { nextDelay = Math.max(frame.delay, nextDelay); }
+          ++i;
+          break;
         }
 
-        console.info(id, 'frame', i);
-        const frame = s.frames[i];
-        if (frame.class) { page.class = frame.class; }
-        if ('scene' in frame) { scene.scene = frame.scene; }
-        if ('overflow' in frame) { device.overflow = frame.overflow; }
-        ++i;
+        window.setTimeout(draw, nextDelay);
       }, sceneInterval);
     });
   };

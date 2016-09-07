@@ -5,6 +5,15 @@
       {}
     ]
   },
+  "TS002": {
+    "name": "Layers for Composition",
+    "frames": [
+      {"scene": "flat"},
+      {"class": "layers"},
+      {"class": "layers move", "delay": 8000},
+      {"class": "flash"}
+    ]
+  },
   "TS003": {
     "name": "Fit To Page",
     "frames": [
