@@ -11,6 +11,10 @@
       {"scene": "flat"},
       {"class": "layers"},
       {"class": "layers move", "delay": 8000},
+      {"class": ""},
+      {"scene": "side"},
+      {"class": "resize"},
+      {"class": "resize2"},
       {"class": "flash"}
     ]
   },

@@ -34,35 +34,22 @@ img {
 
 /** #1 */
 
-.layers #html {
-  outline: 2px green solid;
-}
 .layers h1 {
-  border-color: red;
+  border-color: green;
   transform: translateZ(10px) rotate(0deg);
 }
 .layers img {
-  border-color: blue;
+  border-color: green;
   transform: translateZ(15px);
 }
 .layers .caption {
-  border-color: purple;
   transform: translateZ(10px);
-}
-
-@keyframes mover {
-  0%   { transform: translateZ(15px); opacity: 1.0; }
-  20%  { transform: translateZ(15px) rotateX(-45deg); opacity: 1.0; }
-  40%  { transform: translateZ(15px) rotateX(-45deg); opacity: 1.0; }
-  60%  { transform: translateZ(15px) rotateX(-45deg); opacity: 0.25; }
-  80%  { transform: translateZ(15px) rotateX(-45deg); opacity: 0.25; }
-  100% { transform: translateZ(15px); opacity: 1.0; }
 }
 
 /** #2 */
 
 .move img {
-  animation: mover 5s;
+  opacity: 0.5;
 }
 .move h1 {
   transition: all 1s;
@@ -73,7 +60,19 @@ img {
   transform: translateZ(10px) translateY(20px);
 }
 
-/** #2 */
+/** #3 */
+
+.resize img {
+  width: 320px;
+}
+
+/** #4 */
+
+.resize2 img {
+  width: 120px;
+}
+
+/** #5 */
 
 @keyframes flash {
   0%   { filter: none; }
@@ -84,4 +83,5 @@ img {
 .flash img {
   animation: flash 1s;
   animation-delay: 0.5s;
+  border-color: purple;
 }
