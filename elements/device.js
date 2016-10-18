@@ -94,7 +94,6 @@ document.registerElement('ts-device', class extends HTMLElement {
 }
 
 .size {
-  display: table-cell;  /* sort of like overflow: hidden, but allows 3d transforms within! */
   position: relative;
   background: white;
   transition: width 0.5s, height 0.5s;
