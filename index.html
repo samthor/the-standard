@@ -163,7 +163,7 @@ const playVideo = (function() {
           break;
         }
 
-        window.setTimeout(draw, nextDelay);
+        interval = window.setTimeout(draw, nextDelay);
       }, sceneInterval);
     });
   };
