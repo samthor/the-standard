@@ -55,4 +55,8 @@ document.registerElement('ts-page', class extends HTMLElement {
     this.outer_.className = value;
   }
 
+  q(query) {
+    return this.holder_.querySelector(query);
+  }
+
 });

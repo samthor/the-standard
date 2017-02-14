@@ -2,7 +2,15 @@
   "TS001": {
     "name": "Form Validation",
     "frames": [
-      {}
+      {"scene": "side", "class": "show-email"},
+      {"click": "#submit"},
+      {"keyboard": {"q": "#input1", "value": "real-email@example.com"}},
+      {"class": "show-regex"},
+      {"keyboard": {"q": "#input2", "value": "One Two"}},
+      {"click": "#submit"},
+      {"keyboard": {"q": "#input2", "value": "Berry Banana Bliss"}},
+      {"class": ""},
+      {"class": "more"}
     ]
   },
   "TS002": {

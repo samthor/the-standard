@@ -1,7 +1,22 @@
 <form id="form">
-  <label>Your Email</label>
-  <input type="email" placeholder="sam@example.com" required />
-  <div class="invalid notice">Enter Valid Email</div>
 
-  <input type="submit" />
+  <label>Your email</label>
+  <div class="highlight input-email">
+    <input type="email" placeholder="sam@example.com" id="input1" required />
+  </div>
+
+  <label>Three special fruits</label>
+  <div class="highlight input-regex">
+    <input type="text" placeholder="regex: `\w+ \w+ \w+`" id="input2" pattern="\w+ \w+ \w+" />
+  </div>
+
+  <div class="extra">
+    <label>Color</label>
+    <input type="color" />
+
+    <label>Date</label>
+    <input type="date" />
+  </div>
+
+  <input type="submit" id="submit" />
 </form>
