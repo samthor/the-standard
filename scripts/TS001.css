@@ -19,7 +19,7 @@ label, .notice {
   color: #555;
   margin-top: 8px;
 }
-input {
+input, button {
   border: 2px solid #ccc;
   border-radius: 2px;
   font-size: 20px;
@@ -39,9 +39,16 @@ input[type="color"] {
 input::-webkit-input-placeholder {
   color: #ccc;
 }
-input:focus {
+button:focus, input:focus {
   outline: 0;
   border-color: #0091ea;
+}
+
+#input1:focus {
+  border-color: blue;
+}
+#input2:focus {
+  border-color: green;
 }
 
 .highlight {
@@ -80,6 +87,28 @@ input:invalid + .invalid {
   transition: all 0.5s;
   max-height: 0;
   overflow: hidden;
+  position: relative;
+}
+
+.extra > div {
+  transition: all 1s;
+  width: 100%;
+  border-right: 32px solid transparent;
+}
+.extra > div.carousel-2 {
+  position: absolute;
+  left: calc(100% + 32px);
+  top: 0;
+}
+.extra > div.carousel-3 {
+  position: absolute;
+  left: calc(200% + 64px);
+  top: 0;
+}
+
+button {
+  transition: opacity 1s;
+  opacity: 0;
 }
 
 /** #1 */
@@ -111,4 +140,24 @@ input:invalid + .invalid {
 /** #3 */
 .more .extra {
   max-height: 200px;
+}
+
+.more2 .extra > div {
+  transform: translate(-100%);
+}
+.more3 .extra > div {
+  transform: translate(-200%);
+}
+
+/** 4-ish */
+.validate button {
+  opacity: 1;
+}
+
+/** 5 */
+
+.error .show-error {
+  transition: all 1s;
+  border-right: 16px solid red;
+  padding-right: 10px;
 }

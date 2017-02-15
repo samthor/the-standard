@@ -11,12 +11,36 @@
   </div>
 
   <div class="extra">
-    <label>Color</label>
-    <input type="color" />
+    <div class="carousel-1">
+      <label>Color</label>
+      <input type="color" />
 
-    <label>Date</label>
-    <input type="date" />
+      <label>Date</label>
+      <div class="show-error">
+        <input type="date" required />
+      </div>
+    </div>
+    <div class="carousel-2">
+      <label>Email</label>
+      <input type="email" placeholder="Email" />
+
+      <label>Week</label>
+      <input type="week" />
+    </div>
+    <div class="carousel-3">
+      <label>Month</label>
+      <input type="month" />
+
+      <label>Range</label>
+      <input type="range" />
+    </div>
   </div>
 
   <input type="submit" id="submit" />
+  <button id="validate">Validate</button>
+  <script>
+  validate.onclick = function() {
+    this.form.checkValidity();
+  };
+  </script>
 </form>

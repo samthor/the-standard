@@ -2,15 +2,23 @@
   "TS001": {
     "name": "Form Validation",
     "frames": [
+      {"keyboard": {"q": "#input1", "value": ""}},
       {"scene": "side", "class": "show-email"},
       {"click": "#submit"},
-      {"keyboard": {"q": "#input1", "value": "real-email@example.com"}},
+      {"keyboard": {"q": "#input1", "value": "fake-email@example.com"}},
       {"class": "show-regex"},
       {"keyboard": {"q": "#input2", "value": "One Two"}},
       {"click": "#submit"},
       {"keyboard": {"q": "#input2", "value": "Berry Banana Bliss"}},
-      {"class": ""},
-      {"class": "more"}
+      {"class": "", "click": "form"},
+      {"class": "more"},
+      {"class": "more more2"},
+      {"class": "more more3"},
+      {"class": "more"},
+      {"class": "more validate"},
+      {"click": "#validate"},
+      {"class": "more validate error"},
+      {}
     ]
   },
   "TS002": {
