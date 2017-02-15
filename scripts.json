@@ -49,6 +49,14 @@
       {"class": "nomargin bgcolor"}
     ]
   },
+  "TS004": {
+    "name": "Theming",
+    "frames": [
+      {"scene": "flat"},
+      {"class": "big"},
+      {"class": "gone big"}
+    ]
+  },
   "TS005": {
     "name": "Icon Fonts",
     "frames": [

@@ -1,0 +1,59 @@
+
+#html {
+  background: linear-gradient(to top, #673AB7, #512DA8);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 1) inset;
+}
+
+.app {
+  position: absolute;
+  width: 80%;
+  height: 86%;
+  left: 10%;
+  top: 7%;
+  background: #fff;
+  border-radius: 2px;
+  transform: translateZ(42px);
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  transform-style: preserve-3d;
+  transition: all 0.25s ease-out;
+  will-change: transform;
+}
+
+.app header {
+  line-height: 24px;
+  font-size: 12px;
+  padding: 4px 12px;
+  font-weight: 500;
+  background: #eee;
+  color: #333;
+  transition: all 1s;
+}
+
+.app::after {
+  content: '';
+  position: absolute;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  transform: translateZ(-40px);
+  background: rgba(0, 0, 0, 0.25);
+  top: 4px;
+  left: 4px;
+  filter: blur(8px);
+  transition: all 0.25s;
+}
+
+/** #1 */
+
+.big .app header {
+  font-size: 24px;
+  line-height: 48px;
+}
+
+/** #2 */
+
+.gone .app {
+  transform: translateZ(-2px) scale(0.01);
+}
+.gone .app::after {
+  opacity: 0;
+}
