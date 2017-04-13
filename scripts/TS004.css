@@ -4,6 +4,53 @@
   box-shadow: 0 0 2px rgba(0, 0, 0, 1) inset;
 }
 
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.realicon {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 64px;
+  border-radius: 0.25em;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+.realicon::before, .realicon::after {
+  display: block;
+  content: '';
+  position: absolute;
+  border-radius: inherit;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(assets/thumbsup.png) center no-repeat white;
+  background-size: contain;
+  transition: opacity 1s;
+}
+.realicon::after {
+  background-image: url(assets/calendar.png);
+  opacity: 0;
+}
+
+.label {
+  color: white;
+  font-size: 18px;
+  line-height: 24px;
+  white-space: nowrap;
+  padding: 4px 12px;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.125);
+}
+
 .app {
   position: absolute;
   width: 80%;
@@ -27,6 +74,34 @@
   background: #eee;
   color: #333;
   transition: all 1s;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.app header .realicon {
+  font-size: 1.2em;
+  box-shadow: none;
+  margin-right: 8px;
+}
+
+.app .bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(103, 58, 183, 0.5);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.66s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-size: 24px;
+  text-shadow: 0 0 2px 2px rgba(255, 255, 255, 0.5);
 }
 
 .app::after {
@@ -56,4 +131,28 @@
 }
 .gone .app::after {
   opacity: 0;
+}
+
+/** #3 */
+
+.loading ts-lines {
+  display: none;
+}
+.loading .bg {
+  opacity: 1;
+  transition: none;
+}
+
+.noshadow .app {
+  transform: translateZ(1px);
+}
+.noshadow .app::after {
+  opacity: 0;
+}
+
+.newicon .realicon::before {
+  opacity: 0;
+}
+.newicon .realicon::after {
+  opacity: 1;
 }

@@ -52,9 +52,13 @@
   "TS004": {
     "name": "Theming",
     "frames": [
+      {"scene": "side"},
       {"scene": "flat"},
-      {"class": "big"},
-      {"class": "gone big"}
+      {"class": "gone"},
+      {"class": "loading"},
+      {"class": "", "scene": "side"},
+      {"class": "noshadow big"},
+      {"class": "noshadow big newicon"}
     ]
   },
   "TS005": {
