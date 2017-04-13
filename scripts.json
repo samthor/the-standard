@@ -95,5 +95,16 @@
       {"class": "hideall", "keyboard": {"q": "#url", "value": "example.com/castle"}},
       {"class": "visit-castle"}
     ]
+  },
+  "TS008": {
+    "name": "Saving Bandwidth",
+    "frames": [
+      {"scene": "side", "class": "small"},
+      {"class": ""},
+      {"class": "bad-image"},
+      {"class": "bad-image small"},
+      {"class": "small crush"},
+      {"class": "small crush pngcrush"}
+    ]
   }
 }
