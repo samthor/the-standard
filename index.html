@@ -161,6 +161,11 @@ const playVideo = (function() {
           if ('overflow' in frame) { device.overflow = frame.overflow; }
           if ('delay' in frame) { nextDelay = Math.max(frame.delay, nextDelay); }
 
+          if ('value' in frame) {
+            const el = page.q(frame.value.q);
+            el.value = frame.value.value;
+          }
+
           if ('keyboard' in frame) {
             const k = frame.keyboard;
             const el = page.q(k.q);

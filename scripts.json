@@ -82,5 +82,18 @@
       {"class": "highlight raised position"},
       {"class": "position"}
     ]
+  },
+  "TS007": {
+    "name": "Handle Back and Forwards",
+    "frames": [
+      {"scene": "side", "value": {"q": "#url", "value": "example.com"}},
+      {"click": "#something", "value": {"q": "#url", "value": "example.com/castle"}, "class": "visit-castle"},
+      {"class": "visit-castle press-button"},
+      {"class": "", "value": {"q": "#url", "value": "example.com"}},
+      {"class": "to-right"},
+      {"scene": "flat", "class": "to-left hideall", "value": {"q": "#url", "value": ""}},
+      {"class": "hideall", "keyboard": {"q": "#url", "value": "example.com/castle"}},
+      {"class": "visit-castle"}
+    ]
   }
 }
