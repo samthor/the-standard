@@ -91,8 +91,8 @@
       {"class": "visit-castle press-button"},
       {"class": "", "value": {"q": "#url", "value": "example.com"}},
       {"class": "to-right"},
-      {"scene": "flat", "class": "to-left hideall", "value": {"q": "#url", "value": ""}},
-      {"class": "hideall", "keyboard": {"q": "#url", "value": "example.com/castle"}},
+      {"class": "to-left hideall", "value": {"q": "#url", "value": ""}},
+      {"scene": "flat", "class": "hideall", "keyboard": {"q": "#url", "value": "example.com/castle"}},
       {"class": "visit-castle"}
     ]
   },
