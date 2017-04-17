@@ -107,7 +107,9 @@
       {"class": "small crush pngcrush"},
       {"class": "small loadanyway"},
       {"class": "small loadanyway loadanyway-show"},
-      {"class": "showcase small loadanyway loadanyway-show", "scroll": {"q": "#body", "to": 1000}},
+      {"class": "small loadanyway loadanyway-show"},
+      {"class": "loadanyway loadanyway-show", "scroll": {"q": "#body", "to": 600}},
+      {"class": "showcase loadanyway loadanyway-show"},
       {"class": "showcase loadanyway"},
       {"class": "showcase loadanyway"}
     ]

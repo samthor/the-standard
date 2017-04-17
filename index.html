@@ -207,7 +207,26 @@ const playVideo = (function() {
 
           if ('scroll' in frame) {
             const el = page.q(frame.scroll.q);
-            el.scrollTop = frame.scroll.to;  // TODO: smooth scroll
+
+            const startAt = el.scrollTop;
+            const scrollTo = frame.scroll.to;
+
+            const start = performance.now();
+            const update = whenever => {
+              const delta = performance.now() - start;
+
+              let ratio = ((delta - nextDelay * 0.33) * 2) / (nextDelay * (2/3));
+              ratio = Math.max(0, ratio);
+              ratio = Math.min(1, ratio);
+
+              el.scrollTop = (scrollTo - startAt) * ratio + startAt;
+
+              if (ratio < 1) {
+                window.requestAnimationFrame(update);
+              }
+            };
+            window.requestAnimationFrame(update);
+
           }
 
           ++i;
