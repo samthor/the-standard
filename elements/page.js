@@ -56,6 +56,9 @@ document.registerElement('ts-page', class extends HTMLElement {
   }
 
   q(query) {
+    if (query === '#body') {
+      return this.holder_;
+    }
     return this.holder_.querySelector(query);
   }
 

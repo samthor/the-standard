@@ -203,7 +203,11 @@ const playVideo = (function() {
             window.setTimeout(() => {
               (document.activeElement || el).blur();
             }, nextDelay * 0.75);
+          }
 
+          if ('scroll' in frame) {
+            const el = page.q(frame.scroll.q);
+            el.scrollTop = frame.scroll.to;  // TODO: smooth scroll
           }
 
           ++i;

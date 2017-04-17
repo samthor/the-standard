@@ -1,3 +1,12 @@
+#html {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25) inset;
+}
+
+#body {
+  height: 100%;
+  overflow: scroll;
+}
+
 #container {
   width: 800px;
   position: absolute;
@@ -43,30 +52,72 @@
 }
 
 #rest {
-  padding-top: 185px;
+  box-sizing: border-box;
+  height: 100%;
 }
 
-#crush {
+.holder {
   display: flex;
   justify-content: center;
   text-align: center;
   transition: opacity 0.25s;
 }
 
-#crush div {
+.holder div {
   transition: opacity 0.25s;
 }
-#crush div img {
+.holder#crush div img {
   width: 140px;
   margin: -20px;
 }
-#crush div h3 {
+.holder div h3 {
   color: #333;
   font-size: 16px;
   margin: 12px 0 4px;
 }
-#crush div pre {
+.holder div pre {
   margin: 4px;
+  margin-bottom: 12px;
+}
+
+.holder .fake {
+  position: relative;
+}
+.holder .fake .label {
+  position: absolute;
+  font-weight: bold;
+  font-size: 16px;
+  color: black;
+  border-radius: 6px;
+  background: #eee;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1s;
+}
+
+#lots {
+  margin-top: 24px;
+  flex-flow: column;
+  align-items: center;
+}
+#lots .bg {
+  margin: 12px 0;
+  border-radius: 6px;
+  background: #eee;
+  width: auto;
+  display: inline-block;
+}
+#lots .bg.fake {
+  margin-bottom: 400px;
+}
+#lots img {
+  display: block;
+  border-radius: 6px;
+  width: 180px;
+  transition: opacity 1s;
 }
 
 /** #1 */
@@ -89,8 +140,9 @@
 
 #crush {
   opacity: 0;
-}
-.crush #crush {
+  transform: translateY(-100%);
+} 
+.crush .holder#crush {
   opacity: 1;
 }
 
@@ -102,3 +154,42 @@
 .pngcrush #pngcrush {
   opacity: 1;
 }
+
+/** #5 */
+
+.loadanyway #container {
+  transition: opacity 0.25s;
+  opacity: 0;
+}
+
+.fake.bg {
+  opacity: 0;
+}
+.loadanyway .fake.bg {
+  opacity: 1;
+}
+.bg img {
+  opacity: 0;
+}
+.loadanyway-show .fake.bg img {
+  opacity: 1 !important;
+}
+.loadanyway-show .fake.bg .label {
+  opacity: 0;
+}
+
+/** #6 */
+
+.showcase .bg img {
+  opacity: 1;
+}
+.showcase .bg:nth-child(1) img {
+  transition-delay: 0s !important;
+}
+.showcase .bg:nth-child(2) img {
+  transition-delay: 1.25s !important;
+}
+.showcase .bg:nth-child(3) img {
+  transition-delay: 2.5s !important;
+}
+

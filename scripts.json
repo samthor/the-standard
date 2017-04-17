@@ -99,12 +99,17 @@
   "TS008": {
     "name": "Saving Bandwidth",
     "frames": [
-      {"scene": "side", "class": "small"},
+      {"scene": "side", "class": "small", "scroll": {"q": "#body", "to": 0}},
       {"class": ""},
       {"class": "bad-image"},
       {"class": "bad-image small"},
       {"class": "small crush"},
-      {"class": "small crush pngcrush"}
+      {"class": "small crush pngcrush"},
+      {"class": "small loadanyway"},
+      {"class": "small loadanyway loadanyway-show"},
+      {"class": "showcase small loadanyway loadanyway-show", "scroll": {"q": "#body", "to": 1000}},
+      {"class": "showcase loadanyway"},
+      {"class": "showcase loadanyway"}
     ]
   }
 }
