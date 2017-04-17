@@ -215,7 +215,7 @@ const playVideo = (function() {
             const update = whenever => {
               const delta = performance.now() - start;
 
-              let ratio = ((delta - nextDelay * 0.33) * 2) / (nextDelay * (2/3));
+              let ratio = (delta / nextDelay);
               ratio = Math.max(0, ratio);
               ratio = Math.min(1, ratio);
 
