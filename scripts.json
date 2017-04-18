@@ -103,15 +103,14 @@
       {"class": ""},
       {"class": "bad-image"},
       {"class": "bad-image small"},
-      {"class": "small crush"},
-      {"class": "small crush pngcrush"},
+      {"class": "bad-image small crush"},
+      {"class": "bad-image small crush pngcrush"},
+      {"class": "bad-image small crush pngcrush gif", "delay": 8000},
       {"class": "small loadanyway"},
-      {"class": "small loadanyway loadanyway-show"},
-      {"class": "small loadanyway loadanyway-show"},
+      {"class": "small loadanyway loadanyway-show", "delay": 5000},
       {"class": "loadanyway loadanyway-show", "scroll": {"q": "#body", "to": 600}},
       {"class": "showcase loadanyway loadanyway-show"},
-      {"class": "showcase loadanyway"},
-      {"class": "showcase loadanyway"}
+      {"class": "showcase loadanyway", "delay": 5000}
     ]
   }
 }

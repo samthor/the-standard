@@ -80,6 +80,12 @@
   margin-bottom: 12px;
 }
 
+.holder#gif div img,
+.holder#gif div video {
+  width: 140px;
+  margin: 0 4px;
+}
+
 .holder .fake {
   position: relative;
 }
@@ -95,7 +101,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 1s;
 }
 
 #lots {
@@ -110,14 +115,13 @@
   width: auto;
   display: inline-block;
 }
-#lots .bg.fake {
-  margin-bottom: 400px;
+#lots .divider {
+  margin-bottom: 200px;
 }
 #lots img {
   display: block;
   border-radius: 6px;
   width: 180px;
-  transition: opacity 1s;
 }
 
 /** #1 */
@@ -155,6 +159,17 @@
   opacity: 1;
 }
 
+/** #4b */
+
+#gif {
+  opacity: 0;
+  transform: translateY(-100%);
+} 
+.gif .holder#gif {
+  opacity: 1;
+}
+
+
 /** #5 */
 
 .loadanyway #container {
@@ -183,13 +198,16 @@
 .showcase .bg img {
   opacity: 1;
 }
-.showcase .bg:nth-child(1) img {
-  transition-delay: 0s !important;
+.appear img {
+  transition: opacity 1s;
 }
-.showcase .bg:nth-child(2) img {
-  transition-delay: 1.25s !important;
+.appear div:nth-child(1) img {
+  transition-delay: 0s;
 }
-.showcase .bg:nth-child(3) img {
-  transition-delay: 2.5s !important;
+.appear div:nth-child(2) img {
+  transition-delay: 1.25s;
+}
+.appear div:nth-child(3) img {
+  transition-delay: 2.5s;
 }
 
