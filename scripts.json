@@ -93,7 +93,11 @@
       {"class": "to-right"},
       {"class": "to-left hideall", "value": {"q": "#url", "value": ""}},
       {"scene": "flat", "class": "hideall", "keyboard": {"q": "#url", "value": "example.com/castle"}},
-      {"class": "visit-castle"}
+      {"class": "visit-castle"},
+      {"class": "to-right"},
+      {"class": "to-left hideall", "value": {"q": "#url", "value": ""}},
+      {"scene": "side", "class": "hideall", "keyboard": {"q": "#url", "value": "example.com/#calendar"}},
+      {"class": "visit-calendar"}
     ]
   },
   "TS008": {
