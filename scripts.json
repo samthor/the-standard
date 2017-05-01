@@ -101,7 +101,7 @@
     ]
   },
   "TS008": {
-    "name": "Saving Bandwidth",
+    "name": "Saving Bandwidth with Images",
     "frames": [
       {"scene": "side", "class": "small", "scroll": {"q": "#body", "to": 0}},
       {"class": ""},
