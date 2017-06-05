@@ -5,7 +5,7 @@
  * contents of the screen.
  */
 class StandardDeviceElement extends HTMLElement {
-  static get observedAttributes() {return ['rows', 'plain']; }
+  static get observedAttributes() {return ['rows', 'overflow']; }
 
   constructor() {
     super();
