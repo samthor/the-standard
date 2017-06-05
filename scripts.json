@@ -1,4 +1,10 @@
 {
+  "TS00x": {
+    "name": "Playground",
+    "frames": [
+      {"scene": "side"}
+    ]
+  },
   "TS001": {
     "name": "Form Validation",
     "frames": [
