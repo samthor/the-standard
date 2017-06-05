@@ -1,18 +1,13 @@
 /**
  * Scene element to portray contents in 3D space.
  */
-document.registerElement('ts-scene', class extends HTMLElement {
-  set scene(v) {
-    if (v) {
-      this.setAttribute('scene', v);
-    } else {
-      this.removeAttribute('scene');
-    }
-  }
+class StandardSceneElement extends HTMLElement {
+  static get observedAttributes() {return ['scene']; }
 
-  createdCallback() {
-    const {root, holder} = shadowFor(this);
+  constructor() {
+    super();
 
+    const root = this.attachShadow({mode: 'open'});
     root.innerHTML = `
 <style>
 :host {
@@ -29,8 +24,17 @@ document.registerElement('ts-scene', class extends HTMLElement {
   transform: rotateX(-10deg) rotateY(10deg) scale(1.0);
 }
 </style>
-${holder}
+<slot></slot>
     `;
-
   }
-});
+
+  set scene(v) {
+    if (v) {
+      this.setAttribute('scene', v);
+    } else {
+      this.removeAttribute('scene');
+    }
+  }
+}
+
+customElements.define('ts-scene', StandardSceneElement);

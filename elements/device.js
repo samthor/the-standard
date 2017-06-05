@@ -4,37 +4,13 @@
  * Supports [device="tablet"], and [overflow] (which makes everything non-3d, but contains the
  * contents of the screen.
  */
-document.registerElement('ts-device', class extends HTMLElement {
+class StandardDeviceElement extends HTMLElement {
+  static get observedAttributes() {return ['rows', 'plain']; }
+
   constructor() {
     super();
-    this.holder_ = null;
-  }
 
-  stepDevice() {
-    const device = this.getAttribute('device');
-    if (device == 'tablet') {
-      this.removeAttribute('device');
-    } else {
-      this.setAttribute('device', 'tablet');
-    }
-  }
-
-  attributeChangedCallback(attrName, oldValue, newValue) {
-    switch (attrName) {
-    }
-  }
-
-  set overflow(value) {
-    if (value) {
-      this.setAttribute('overflow', '');
-    } else {
-      this.removeAttribute('overflow');
-    }
-  }
-
-  createdCallback() {
-    const {root, holder} = shadowFor(this);
-
+    const root = this.attachShadow({mode: 'open'});
     root.innerHTML = `
 <style>
 
@@ -175,7 +151,9 @@ document.registerElement('ts-device', class extends HTMLElement {
     </div>
     <div class="camera"></div>
     <div class="border">
-      <div class="size" id="contents">${holder}</div>
+      <div class="size" id="contents">
+<slot></slot>
+      </div>
     </div>
   </div>
 </div>
@@ -186,4 +164,23 @@ document.registerElement('ts-device', class extends HTMLElement {
     // const attrs = 'device';
     // attrs.split().forEach(attr => this.attributeChangedCallback(attr, undefined, this.getAttribute(attr)));
   }
-});
+
+  stepDevice() {
+    const device = this.getAttribute('device');
+    if (device == 'tablet') {
+      this.removeAttribute('device');
+    } else {
+      this.setAttribute('device', 'tablet');
+    }
+  }
+
+  set overflow(value) {
+    if (value) {
+      this.setAttribute('overflow', '');
+    } else {
+      this.removeAttribute('overflow');
+    }
+  }
+}
+
+customElements.define('ts-device', StandardDeviceElement);

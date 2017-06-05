@@ -1,10 +1,11 @@
 /**
  * Fake HTML page.
  */
-document.registerElement('ts-page', class extends HTMLElement {
-  createdCallback() {
-    const {root, holder} = shadowFor(this);
+class StandardPageElement extends HTMLElement {
+  constructor() {
+    super();
 
+    const root = this.attachShadow({mode: 'open'});
     root.innerHTML = `
 <style>
 #html {
@@ -61,5 +62,6 @@ document.registerElement('ts-page', class extends HTMLElement {
     }
     return this.holder_.querySelector(query);
   }
+}
 
-});
+customElements.define('ts-page', StandardPageElement);
