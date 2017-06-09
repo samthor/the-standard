@@ -67,6 +67,7 @@ class StandardDeviceElement extends HTMLElement {
   height: 24px;
   background: #c2c2c2;
   border-radius: 100px;
+  transition: opacity 0.5s;
 }
 
 .size {
@@ -79,6 +80,7 @@ class StandardDeviceElement extends HTMLElement {
 }
 .border {
   padding: 40px 16px;
+  transition: padding 0.5s;
 }
 
 .shadow {
@@ -117,9 +119,7 @@ class StandardDeviceElement extends HTMLElement {
 
 /** tablet device */
 
-:host([device="tablet"]) .device:before {
-  border-radius: 1000px;
-}
+:host([device="tablet"]) .device:before,
 :host([device="tablet"]) .device:after {
   border-radius: 1000px;
 }
@@ -134,6 +134,24 @@ class StandardDeviceElement extends HTMLElement {
 }
 :host([device="tablet"]) .solid:before {
   bottom: -13px;
+}
+
+/** desktop device */
+
+:host([device="desktop"]) .size {
+  width: 600px;
+  height: 450px;
+}
+:host([device="desktop"]) .device:before,
+:host([device="desktop"]) .device:after {
+  border-radius: 1000px;
+  height: 0;
+}
+:host([device="desktop"]) .border {
+  padding: 8px 16px;
+}
+:host([device="desktop"]) .camera {
+  opacity: 0;
 }
 
 /** non-3d mode that allows hiding stuff */
@@ -166,11 +184,15 @@ class StandardDeviceElement extends HTMLElement {
   }
 
   stepDevice() {
-    const device = this.getAttribute('device');
-    if (device == 'tablet') {
+    const devices = ['', 'tablet', 'desktop'];
+    const device = this.getAttribute('device') || '';
+    const target = (devices.indexOf(device) + 1) % devices.length;
+
+    const update = devices[target];
+    if (!update) {
       this.removeAttribute('device');
     } else {
-      this.setAttribute('device', 'tablet');
+      this.setAttribute('device', update);
     }
   }
 
