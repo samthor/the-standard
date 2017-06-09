@@ -96,13 +96,13 @@
       {"click": "#something", "value": {"q": "#url", "value": "example.com/castle"}, "class": "visit-castle"},
       {"class": "visit-castle press-button"},
       {"class": "", "value": {"q": "#url", "value": "example.com"}},
-      {"class": "to-right"},
+      {"class": "to-right", "attr": {"q": "ts-feature", "name": "mode", "value": "hide"}},
       {"class": "to-left hideall", "value": {"q": "#url", "value": ""}},
-      {"scene": "flat", "class": "hideall", "keyboard": {"q": "#url", "value": "example.com/castle"}},
+      {"scene": "flat", "attr": {"q": "ts-feature", "name": "mode", "value": "popout"}, "class": "hideall", "keyboard": {"q": "#url", "value": "example.com/castle"}},
       {"class": "visit-castle"},
-      {"class": "to-right"},
+      {"class": "to-right", "attr": {"q": "ts-feature", "name": "mode", "value": "hide"}},
       {"class": "to-left hideall", "value": {"q": "#url", "value": ""}},
-      {"scene": "side", "class": "hideall", "keyboard": {"q": "#url", "value": "example.com/#calendar"}},
+      {"scene": "side", "attr": {"q": "ts-feature", "name": "mode", "value": "popout"}, "class": "hideall", "keyboard": {"q": "#url", "value": "example.com/#calendar"}},
       {"class": "visit-calendar"}
     ]
   },

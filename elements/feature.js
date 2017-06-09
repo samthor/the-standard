@@ -47,6 +47,7 @@ class StandardFeatureElement extends HTMLElement {
   transition: all var(--duration) ease-out;
   will-change: transform;
   transform: translateZ(0) scale(1);
+  width: 100%;
 }
 
 :host([mode="popout"]) #shadow {
