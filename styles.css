@@ -1,0 +1,15 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+html {
+  background: #eaeaea;
+  font-family: 'Roboto', Sans-Serif;
+  overflow: hidden;
+}
+
+ts-scene[disabled] {
+  opacity: 0.25;
+}

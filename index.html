@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <title>The Standard</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Lobster|Lato:400,700|Roboto:300,300i,400,400i,700,700i" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, user-scalable=no" />
   <script src="elements/device.js"></script>
   <script src="elements/scene.js"></script>
@@ -11,42 +10,15 @@
   <script src="elements/lines.js"></script>
   <script src="elements/feature.js"></script>
   <script src="elements/scroll.js"></script>
-  <style type="text/css">
-
-html {
-  background: #eaeaea;
-  min-height: 100vh;
-  font-family: 'Roboto', Sans-Serif;
-  overflow-x: hidden;
-}
-body {
-  margin: 0;
-}
-
-header {
-  z-index: 1000;
-  position: absolute;
-  top: 100vh;
-  left: 0;
-  width: 100%;
-  background: #ccc;
-  padding: 8px;
-}
-
-ts-scene[disabled] {
-  opacity: 0.25;
-}
-
-</style>
+  <script src="elements/ui/header.js"></script>
+  <script src="elements/ui/loader.js"></script>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<header>
-  <button id="type">Device</button>
-  <select id="videos">
-    <option value="">▶︎ Choose</option>
-  </select>
-</header>
+<tsui-header id="header">
+  <tsui-loader id="loader" scripts="/scripts.json"></tsui-loader>
+</tsui-header>
 
 <ts-scene id="scene" disabled>
   <ts-device device="tablet">
@@ -56,46 +28,34 @@ ts-scene[disabled] {
 </ts-scene>
 
 <script>
-
-const device = document.querySelector('ts-device');
-const sceneInterval = 2500;
-let scripts;
-
-window.fetch('scripts.json').then(out => out.json()).then(out => {
-  scripts = out;  // save global
-  const keys = Object.keys(out).sort();
-  for (const id of keys) {
-    const option = document.createElement('option');
-    option.value = id;
-    option.text = out[id].name;
-    videos.add(option);
-  }
-
+'use strict';
+(function() {
+  // IIFE for header script chooser bind to hash
+  window.addEventListener('hashchange', ev => header.script = window.location.hash.substr(1));
   if (window.location.hash) {
     window.dispatchEvent(new CustomEvent('hashchange'));
   }
-});
+  const mo = new MutationObserver(_ => {
+    window.history.replaceState(null, null, header.script ? `#${header.script}` : '/');
+    document.body.dispatchEvent(new CustomEvent('script', {detail: header.script}));
+  });
+  mo.observe(header, {attributes: true, attributeFilter: ['script']});
+}());
 
-window.addEventListener('hashchange', function() {
-  console.info('hashchange', window.location.hash);
-  const part = window.location.hash.substr(1);
-  if (part in scripts) {
-    select.value = part;
-  } else {
-    select.value = '';
-  }
-  playVideo(part);
-});
+(function() {
+// IIFE for old script player
 
-const select = document.querySelector('select#videos');
-select.addEventListener('change', ev => {
-  if (select.value) {
-    window.location.hash = `#${select.value}`;
-  } else {
-    window.history.pushState(null, null, '/');
-    playVideo('');
-  }
+const device = document.querySelector('ts-device');
+const sceneInterval = 2500;
+let scripts = {};
+
+document.body.addEventListener('scripts', ev => {
+  scripts = ev.detail;
+  playVideo(header.script);
 });
+document.body.addEventListener('script', ev => playVideo(header.script));
+
+header.addEventListener('step', ev => device.stepDevice());
 
 const playVideo = (function() {
   const scene = document.querySelector('ts-scene');
@@ -250,7 +210,7 @@ const playVideo = (function() {
   };
 }());
 
-document.querySelector('button#type').addEventListener('click', ev => device.stepDevice());
+}());
 
 </script>
 
