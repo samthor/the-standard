@@ -108,6 +108,7 @@ async function playVideo(id) {
     frame.textContent = count;
     const delay = Promises.timeout(paused ? 0 : nextDelay);
     if (await runner(page, nextDelay)) {
+      frame.textContent = '\u{2714}';
       return true;  // done
     }
     await delay;  // if not paused, wait the whole frame duration
