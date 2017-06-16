@@ -170,7 +170,7 @@ button:focus, .button-fake *:focus + .button {
       const script = id && scripts[id];
       if (!script) {
         idEl.textContent = '\u{2014}';
-        headingEl.textContent = '';
+        headingEl.innerHTML = '&nbsp;';
       } else {
         idEl.textContent = id;
         headingEl.textContent = script['name'];

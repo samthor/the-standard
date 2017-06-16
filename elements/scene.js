@@ -26,6 +26,22 @@ class StandardSceneElement extends HTMLElement {
 </style>
 <slot></slot>
     `;
+
+    this.addEventListener('scene', ev => {
+      this.scene = ev.detail || null;
+    });
+  }
+
+  set disabled(v) {
+    if (v) {
+      this.setAttribute('disabled', this.getAttribute('disabled') || '');
+    } else {
+      this.removeAttribute('disabled');
+    }
+  }
+
+  get disabled() {
+    return this.hasAttribute('disabled');
   }
 
   set scene(v) {
@@ -34,6 +50,10 @@ class StandardSceneElement extends HTMLElement {
     } else {
       this.removeAttribute('scene');
     }
+  }
+
+  get scene() {
+    return this.getAttribute('scene');
   }
 }
 

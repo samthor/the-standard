@@ -13,7 +13,7 @@
   <tsui-loader id="loader" scripts="/scripts.json"></tsui-loader>
   <div slot="status">
     <tsui-playpause id="playpause" play></tsui-playpause>
-    ? <small>/</small> ?
+    <span id="frame">?</span>
   </div>
 </tsui-header>
 <script type="module">
@@ -30,25 +30,199 @@ mo.observe(header, {attributes: true, attributeFilter: ['script']});
 </script>
 
 <ts-scene id="scene" disabled>
-  <ts-device id="device" device="tablet">
-    <ts-page id="page"></ts-page>
-  </ts-device>
+  <ts-device id="device" device="tablet"></ts-device>
 </ts-scene>
 
 <script type="module">
-let play = true;
-document.body.addEventListener('keydown', ev => {
-  switch (ev.key) {
-  case ' ':
-    play = !play;
-    playpause.play = play;
-    break;
-  }
+import './polyfill.js';
+import * as Promises from './promises.js';
+
+let paused = null;
+let scripts = {};
+
+(function() {
+  let r = null;
+  document.body.addEventListener('keydown', ev => {
+    switch (ev.key) {
+    case ' ':
+      if (!paused) {
+        paused = new Promise(resolve => r = resolve);
+      } else if (r) {
+        paused = null;
+        r();
+        r = null;
+      }
+      playpause.play = !paused;
+      break;
+    case 'ArrowRight':
+      if (r) {
+        r();
+        paused = new Promise(resolve => r = resolve);
+      }
+      break;
+    }
+  });
+}());
+
+document.body.addEventListener('scripts', ev => {
+  scripts = ev.detail;
+  playVideo(header.script);
 });
+document.body.addEventListener('script', ev => playVideo(header.script));
+
+/**
+ * Starts playing the video with the passed ID.
+ */
+async function playVideo(id) {
+  scene.disabled = true;
+  scene.scene = null;
+  device.textContent = '';
+  frame.textContent = '\u{2014}';
+  const script = scripts[id] || null;
+  if (!script) {
+    return false;  // done, no script to play
+  }
+
+  const page = document.createElement('ts-page');
+  device.appendChild(page);
+  scene.disabled = false;
+
+  const fetchHTML = window.fetch(`scripts/${id}.html`).then(out => out.text());
+  const fetchCSS = window.fetch(`scripts/${id}.css`).then(out => out.text());
+  [page.html, page.css] = await Promise.all([fetchHTML, fetchCSS]);
+
+  let runner;
+  if (script.frames) {
+    runner = buildFrameRunner(script.frames);
+  } else {
+    runner = await importScript(`./scripts/${id}.js`).default;
+  }
+
+  const nextDelay = 2500;
+  for (let count = 1;; ++count) {
+    await paused;
+    if (!page.parentNode) {
+      return false;  // no longer on the page
+    }
+
+    frame.textContent = count;
+    const delay = Promises.timeout(paused ? 0 : nextDelay);
+    if (await runner(page, nextDelay)) {
+      return true;  // done
+    }
+    await delay;  // if not paused, wait the whole frame duration
+  }
+}
 
 </script>
 
 <script>
+
+function buildFrameRunner(frames) {
+  let i = -1;
+  return function(page, nextDelay) {
+    const frame = frames[++i];
+    if (!frame) {
+      console.info('animation done');
+      return true;
+    }
+    console.info('rendering frame', i, frame);
+
+    if ('class' in frame) { page.class = frame.class; }
+    if ('scene' in frame) {
+      page.dispatchEvent(new CustomEvent('scene', {detail: frame.scene, bubbles: true}));
+    }
+
+    // FIXME: incorporate overflow into styling of scene
+    // if ('overflow' in frame) { device.overflow = frame.overflow; }
+
+    // FIXME: return a delayed Promise for the longer delay
+    // if ('delay' in frame) { nextDelay = Math.max(frame.delay, nextDelay); }
+
+    if ('value' in frame) {
+      const el = page.q(frame.value.q);
+      el.value = frame.value.value;
+    }
+
+    if ('attr' in frame) {
+      const attr = frame.attr;
+      const el = page.q(attr.q);
+      if (attr.value !== undefined) {
+        el.setAttribute(attr.name, attr.value);
+      } else {
+        el.removeAttribute(attr.name);
+      }
+    }
+
+    if ('keyboard' in frame) {
+      const k = frame.keyboard;
+      const el = page.q(k.q);
+      let remaining = k.value || '';
+      el.focus();
+      let first = true;
+
+      const seg = (nextDelay / remaining.length) * 0.75;
+      const interval = window.setInterval(() => {
+        if (first) {
+          el.value = '';
+          first = false;
+          return;
+        }
+        if (!remaining.length) {
+          window.clearInterval(interval);
+          return;
+        }
+        let i = 0;
+        while (remaining[i] === ' ') {
+          ++i;
+        }
+        el.value = el.value + remaining.substr(0, i + 1);
+        el.focus();
+        remaining = remaining.substr(i + 1);
+      }, seg);
+    }
+
+    if ('click' in frame) {
+      const el = page.q(frame.click);
+      el.focus();
+      window.setTimeout(() => {
+        el.click();
+      }, nextDelay * 0.25);
+      window.setTimeout(() => {
+        (document.activeElement || el).blur();
+      }, nextDelay * 0.75);
+    }
+
+    if ('scroll' in frame) {
+      const el = page.q(frame.scroll.q);
+
+      const startAt = el.scrollTop;
+      const scrollTo = frame.scroll.to;
+
+      const start = performance.now();
+      const update = whenever => {
+        const delta = performance.now() - start;
+
+        let ratio = (delta / nextDelay);
+        ratio = Math.max(0, ratio);
+        ratio = Math.min(1, ratio);
+
+        el.scrollTop = (scrollTo - startAt) * ratio + startAt;
+
+        if (ratio < 1) {
+          window.requestAnimationFrame(update);
+        }
+      };
+      window.requestAnimationFrame(update);
+
+    }
+
+  };
+}
+
+</script>
+
+<script type="ignore">
 (function() {
 // IIFE for old script player
 
@@ -119,88 +293,6 @@ const playVideo = (function() {
         default:
           console.info(id, 'frame', i);
           const frame = s.frames[i];
-          if ('class' in frame) { page.class = frame.class; }
-          if ('scene' in frame) { scene.scene = frame.scene; }
-          if ('overflow' in frame) { device.overflow = frame.overflow; }
-          if ('delay' in frame) { nextDelay = Math.max(frame.delay, nextDelay); }
-
-          if ('value' in frame) {
-            const el = page.q(frame.value.q);
-            el.value = frame.value.value;
-          }
-
-          if ('attr' in frame) {
-            const attr = frame.attr;
-            const el = page.q(attr.q);
-            if (attr.value !== undefined) {
-              el.setAttribute(attr.name, attr.value);
-            } else {
-              el.removeAttribute(attr.name);
-            }
-          }
-
-          if ('keyboard' in frame) {
-            const k = frame.keyboard;
-            const el = page.q(k.q);
-            let remaining = k.value || '';
-            el.focus();
-            let first = true;
-
-            const seg = (nextDelay / remaining.length) * 0.75;
-            const interval = window.setInterval(() => {
-              if (first) {
-                el.value = '';
-                first = false;
-                return;
-              }
-              if (!remaining.length) {
-                window.clearInterval(interval);
-                return;
-              }
-              let i = 0;
-              while (remaining[i] === ' ') {
-                ++i;
-              }
-              el.value = el.value + remaining.substr(0, i + 1);
-              el.focus();
-              remaining = remaining.substr(i + 1);
-            }, seg);
-          }
-
-          if ('click' in frame) {
-            const el = page.q(frame.click);
-            el.focus();
-            window.setTimeout(() => {
-              el.click();
-            }, nextDelay * 0.25);
-            window.setTimeout(() => {
-              (document.activeElement || el).blur();
-            }, nextDelay * 0.75);
-          }
-
-          if ('scroll' in frame) {
-            const el = page.q(frame.scroll.q);
-
-            const startAt = el.scrollTop;
-            const scrollTo = frame.scroll.to;
-
-            const start = performance.now();
-            const update = whenever => {
-              const delta = performance.now() - start;
-
-              let ratio = (delta / nextDelay);
-              ratio = Math.max(0, ratio);
-              ratio = Math.min(1, ratio);
-
-              el.scrollTop = (scrollTo - startAt) * ratio + startAt;
-
-              if (ratio < 1) {
-                window.requestAnimationFrame(update);
-              }
-            };
-            window.requestAnimationFrame(update);
-
-          }
 
           ++i;
           break;

@@ -48,17 +48,29 @@ class StandardPageElement extends HTMLElement {
     this.custom_.textContent = value;
   }
 
+  get css() {
+    return this.custom_.textContent;
+  }
+
   set html(value) {
     this.holder_.innerHTML = value;
+  }
+
+  get html() {
+    return this.holder_.innerHTML;
   }
 
   set class(value) {
     this.outer_.className = value;
   }
 
+  get class() {
+    return this.outer_.className;
+  }
+
   q(query) {
     if (query === '#body') {
-      return this.holder_;
+      return this.holder_;  // return base of query
     }
     return this.holder_.querySelector(query);
   }
