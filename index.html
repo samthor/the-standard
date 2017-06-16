@@ -4,15 +4,7 @@
   <title>The Standard</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Lobster|Lato:400,700|Roboto:300,300i,400,400i,700,700i" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, user-scalable=no" />
-  <script src="elements/device.js"></script>
-  <script src="elements/scene.js"></script>
-  <script src="elements/page.js"></script>
-  <script src="elements/lines.js"></script>
-  <script src="elements/feature.js"></script>
-  <script src="elements/scroll.js"></script>
-  <script src="elements/ui/header.js"></script>
-  <script src="elements/ui/loader.js"></script>
-  <script src="elements/ui/playpause.js"></script>
+  <script type="module" src="elements.js"></script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -24,33 +16,28 @@
     ? <small>/</small> ?
   </div>
 </tsui-header>
+<script type="module">
+// bind header to hash
+window.addEventListener('hashchange', ev => header.script = window.location.hash.substr(1));
+if (window.location.hash) {
+  window.dispatchEvent(new CustomEvent('hashchange'));
+}
+const mo = new MutationObserver(_ => {
+  window.history.replaceState(null, null, header.script ? `#${header.script}` : '/');
+  document.body.dispatchEvent(new CustomEvent('script', {detail: header.script}));
+});
+mo.observe(header, {attributes: true, attributeFilter: ['script']});
+</script>
 
 <ts-scene id="scene" disabled>
-  <ts-device device="tablet">
-    <ts-page>
-    </ts-page>
+  <ts-device id="device" device="tablet">
+    <ts-page id="page"></ts-page>
   </ts-device>
 </ts-scene>
-
 <script>
-'use strict';
-(function() {
-  // IIFE for header script chooser bind to hash
-  window.addEventListener('hashchange', ev => header.script = window.location.hash.substr(1));
-  if (window.location.hash) {
-    window.dispatchEvent(new CustomEvent('hashchange'));
-  }
-  const mo = new MutationObserver(_ => {
-    window.history.replaceState(null, null, header.script ? `#${header.script}` : '/');
-    document.body.dispatchEvent(new CustomEvent('script', {detail: header.script}));
-  });
-  mo.observe(header, {attributes: true, attributeFilter: ['script']});
-}());
-
 (function() {
 // IIFE for old script player
 
-const device = document.querySelector('ts-device');
 const sceneInterval = 2500;
 let scripts = {};
 
@@ -63,10 +50,6 @@ document.body.addEventListener('script', ev => playVideo(header.script));
 header.addEventListener('step', ev => device.stepDevice());
 
 const playVideo = (function() {
-  const scene = document.querySelector('ts-scene');
-  const device = scene.querySelector('ts-device');
-  const page = device.querySelector('ts-page');
-
   function reset() {
     page.class = '';
     scene.scene = null;
