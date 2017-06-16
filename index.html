@@ -12,12 +12,17 @@
   <script src="elements/scroll.js"></script>
   <script src="elements/ui/header.js"></script>
   <script src="elements/ui/loader.js"></script>
+  <script src="elements/ui/playpause.js"></script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <tsui-header id="header">
   <tsui-loader id="loader" scripts="/scripts.json"></tsui-loader>
+  <div slot="status">
+    <tsui-playpause play></tsui-playpause>
+    ? <small>/</small> ?
+  </div>
 </tsui-header>
 
 <ts-scene id="scene" disabled>

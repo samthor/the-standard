@@ -12,10 +12,11 @@ class StandardUiHeaderElement extends HTMLElement {
 <style>
 :host {
   display: block;
+  --feature-color: #68a4ed;
 }
 #flex {
   z-index: 1000;
-  background: #68a4ed;
+  background: var(--feature-color);
   box-sizing: border-box;
   display: flex;
   align-items: stretch;
@@ -49,15 +50,26 @@ button, .button {
   font-weight: 400;
   overflow: hidden;
 }
+.info > * {
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 .info h1 {
   font: inherit;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   text-transform: uppercase;
   font-weight: 700;
-  width: 100%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  margin: 0;
+  margin-top: 0.2em;
+}
+.info #status {
+  text-transform: uppercase;
+  font-size: 0.66em;
+  margin-top: 0.2em;
+  opacity: 0.75;
+  font-weight: 900;
 }
 button.id, .button.id {
   min-width: 6ch;
@@ -119,6 +131,9 @@ button:focus, .button-fake *:focus + .button {
   </div>
   <div class="info">
     <h1 id="heading"></h1>
+    <div id="status">
+      <slot name="status"></slot>
+    </div>
   </div>
   <button id="step">
     <i class="material-icons">computer</i>
