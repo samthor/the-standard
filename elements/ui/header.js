@@ -47,15 +47,17 @@ button, .button {
   font-size: 0.5em;
   line-height: 1em;
   font-weight: 400;
+  overflow: hidden;
 }
 .info h1 {
   font: inherit;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   text-transform: uppercase;
   font-weight: 700;
-}
-.info div {
-  opacity: 0.8;
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 button.id, .button.id {
   min-width: 6ch;
@@ -117,7 +119,6 @@ button:focus, .button-fake *:focus + .button {
   </div>
   <div class="info">
     <h1 id="heading"></h1>
-    <div></div>
   </div>
   <button id="step">
     <i class="material-icons">computer</i>
