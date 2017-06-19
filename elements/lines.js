@@ -41,7 +41,7 @@ class StandardLinesElement extends HTMLElement {
 
   attributeChangedCallback(attrName, oldValue, newValue) {
     this.holder_.innerText = '';
-    const count = +this.getAttribute('rows');
+    const count = this.rows;
 
     for (let i = 0; i < count; ++i) {
       const d = document.createElement('div');
@@ -61,6 +61,18 @@ class StandardLinesElement extends HTMLElement {
 
       this.holder_.appendChild(d);
     }
+  }
+
+  set rows(v) {
+    if (!isNaN(v) && v > 0) {
+      this.setAttribute('rows', v);
+    } else {
+      this.removeAttribute('rows');
+    }
+  }
+
+  get rows() {
+    return +this.getAttribute('rows');
   }
 }
 
