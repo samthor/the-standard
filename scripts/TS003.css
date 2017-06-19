@@ -53,6 +53,11 @@
   border: 0 solid transparent;
 }
 
+.no-overflow {
+  /** nb. applies to the #outer element */
+  overflow: hidden;
+}
+
 /** #4 */
 .scroll #body {
   transform: translateY(35px);

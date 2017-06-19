@@ -48,11 +48,11 @@
       {"class": "highlight height"},
       {"class": "highlight height nomargin"},
       {"class": "height nomargin"},
-      {"scene": null, "overflow": true},
-      {"class": "nomargin"},
-      {"class": "nomargin scroll"},
-      {"class": "nomargin bgcolor scroll"},
-      {"class": "nomargin bgcolor"}
+      {"scene": null, "class": "no-overflow"},
+      {"class": "no-overflow nomargin"},
+      {"class": "no-overflow nomargin scroll"},
+      {"class": "no-overflow nomargin bgcolor scroll"},
+      {"class": "no-overflow nomargin bgcolor"}
     ]
   },
   "TS004": {
