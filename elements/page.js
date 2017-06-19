@@ -8,13 +8,17 @@ class StandardPageElement extends HTMLElement {
     const root = this.attachShadow({mode: 'open'});
     root.innerHTML = `
 <style>
+#outer {
+  height: 100%;
+  border: 10px solid transparent;
+  margin: -10px;
+  border-top-color: #b5b5b5;  /* FIXME: otherwise the top is pushed out white */
+}
 #html {
   min-height: 100%;
   height: 100%;
   transform-style: preserve-3d;
 }
-</style>
-<style>
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
@@ -29,10 +33,9 @@ class StandardPageElement extends HTMLElement {
   -webkit-font-smoothing: antialiased;
 }
 </style>
-<div style="height: 100%">
+<div id="outer">
   <div id="html">
-    <div id="body">
-    </div>
+    <div id="body"></div>
   </div>
 </div>
     `;

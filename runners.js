@@ -1,6 +1,6 @@
 
-export function generator(page, method) {
-  const iter = method(page);
+export function generator(body, method) {
+  const iter = method(body);
 
   return function(nextDelay) {
     const out = iter.next();
@@ -13,8 +13,16 @@ export function generator(page, method) {
   }
 }
 
-export function frame(page, frames) {
+export function frame(body, frames) {
   let i = -1;
+
+  function q(query) {
+    if (query === '#body') {
+      return body;
+    }
+    return body.querySelector(query);
+  }
+
   return function(nextDelay) {
     const frame = frames[++i];
     if (!frame) {
@@ -23,9 +31,10 @@ export function frame(page, frames) {
     }
     console.info('rendering frame', i, frame);
 
-    if ('class' in frame) { page.class = frame.class; }
+    if ('class' in frame) { body.className = frame.class; }
     if ('scene' in frame) {
-      page.dispatchEvent(new CustomEvent('scene', {detail: frame.scene, bubbles: true}));
+      const arg = {detail: frame.scene, bubbles: true, composed: true};
+      body.dispatchEvent(new CustomEvent('scene', arg));
     }
 
     // FIXME: incorporate overflow into styling of scene
@@ -35,13 +44,13 @@ export function frame(page, frames) {
     // if ('delay' in frame) { nextDelay = Math.max(frame.delay, nextDelay); }
 
     if ('value' in frame) {
-      const el = page.q(frame.value.q);
+      const el = q(frame.value.q);
       el.value = frame.value.value;
     }
 
     if ('attr' in frame) {
       const attr = frame.attr;
-      const el = page.q(attr.q);
+      const el = q(attr.q);
       if (attr.value !== undefined) {
         el.setAttribute(attr.name, attr.value);
       } else {
@@ -51,7 +60,7 @@ export function frame(page, frames) {
 
     if ('keyboard' in frame) {
       const k = frame.keyboard;
-      const el = page.q(k.q);
+      const el = q(k.q);
       let remaining = k.value || '';
       el.focus();
       let first = true;
@@ -78,7 +87,7 @@ export function frame(page, frames) {
     }
 
     if ('click' in frame) {
-      const el = page.q(frame.click);
+      const el = q(frame.click);
       el.focus();
       window.setTimeout(() => {
         el.click();
@@ -89,7 +98,7 @@ export function frame(page, frames) {
     }
 
     if ('scroll' in frame) {
-      const el = page.q(frame.scroll.q);
+      const el = q(frame.scroll.q);
 
       const startAt = el.scrollTop;
       const scrollTo = frame.scroll.to;
