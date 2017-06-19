@@ -30,9 +30,6 @@ export function frame(node, frames) {
       node.dispatchEvent(new CustomEvent('scene', arg));
     }
 
-    // FIXME: incorporate overflow into styling of scene
-    // if ('overflow' in frame) { device.overflow = frame.overflow; }
-
     // FIXME: return a delayed Promise for the longer delay
     // if ('delay' in frame) { nextDelay = Math.max(frame.delay, nextDelay); }
 
