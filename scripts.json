@@ -122,5 +122,8 @@
       {"class": "showcase loadanyway loadanyway-show"},
       {"class": "showcase loadanyway", "delay": 5000}
     ]
+  },
+  "TS010": {
+    "name": "Drag and Drop"
   }
 }
