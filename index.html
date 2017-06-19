@@ -70,6 +70,7 @@ document.body.addEventListener('scripts', ev => {
   playVideo(header.script);
 });
 document.body.addEventListener('script', ev => playVideo(header.script));
+document.body.addEventListener('step', ev => device.stepDevice());
 
 /**
  * Starts playing the video with the passed ID.
