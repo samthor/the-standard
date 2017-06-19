@@ -53,6 +53,8 @@ class StandardPageElement extends HTMLElement {
   }
 
   set html(value) {
+    // TODO: we should clear the rest of the #body tag at this point in case it's been mucked with.
+    this.holder_.className = '';
     this.holder_.innerHTML = value;
   }
 
@@ -73,6 +75,10 @@ class StandardPageElement extends HTMLElement {
       return this.holder_;  // return base of query
     }
     return this.holder_.querySelector(query);
+  }
+
+  get body() {
+    return this.holder_;  // the #body node
   }
 }
 
