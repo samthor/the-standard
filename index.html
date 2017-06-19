@@ -94,10 +94,10 @@ async function playVideo(id) {
 
   let runner;
   if (script.frames) {
-    runner = runners.frame(page.body, script.frames);
+    runner = runners.frame(page.root, script.frames);
   } else {
     const generator = (await importScript(`./scripts/${id}.js`)).default;
-    runner = runners.generator(page.body, generator);
+    runner = runners.generator(page.root, generator);
   }
 
   const nextDelay = 2500;

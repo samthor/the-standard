@@ -1,5 +1,5 @@
 /**
- * Fake HTML page.
+ * Fake HTML page. This should be single-use.
  */
 class StandardPageElement extends HTMLElement {
   constructor() {
@@ -44,7 +44,7 @@ class StandardPageElement extends HTMLElement {
     root.appendChild(style);
     this.custom_ = style;
     this.holder_ = root.getElementById('body');
-    this.outer_ = root.querySelector('div');
+    this.outer_ = root.getElementById('outer');
   }
 
   set css(value) {
@@ -56,8 +56,6 @@ class StandardPageElement extends HTMLElement {
   }
 
   set html(value) {
-    // TODO: we should clear the rest of the #body tag at this point in case it's been mucked with.
-    this.holder_.className = '';
     this.holder_.innerHTML = value;
   }
 
@@ -73,15 +71,8 @@ class StandardPageElement extends HTMLElement {
     return this.outer_.className;
   }
 
-  q(query) {
-    if (query === '#body') {
-      return this.holder_;  // return base of query
-    }
-    return this.holder_.querySelector(query);
-  }
-
-  get body() {
-    return this.holder_;  // the #body node
+  get root() {
+    return this.outer_;  // the #body node
   }
 }
 

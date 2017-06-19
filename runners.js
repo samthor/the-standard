@@ -1,6 +1,6 @@
 
-export function generator(body, method) {
-  const iter = method(body);
+export function generator(node, method) {
+  const iter = method(node);
 
   return function(nextDelay) {
     const out = iter.next();
@@ -13,15 +13,8 @@ export function generator(body, method) {
   }
 }
 
-export function frame(body, frames) {
+export function frame(node, frames) {
   let i = -1;
-
-  function q(query) {
-    if (query === '#body') {
-      return body;
-    }
-    return body.querySelector(query);
-  }
 
   return function(nextDelay) {
     const frame = frames[++i];
@@ -31,10 +24,10 @@ export function frame(body, frames) {
     }
     console.info('rendering frame', i, frame);
 
-    if ('class' in frame) { body.className = frame.class; }
+    if ('class' in frame) { node.className = frame.class; }
     if ('scene' in frame) {
       const arg = {detail: frame.scene, bubbles: true, composed: true};
-      body.dispatchEvent(new CustomEvent('scene', arg));
+      node.dispatchEvent(new CustomEvent('scene', arg));
     }
 
     // FIXME: incorporate overflow into styling of scene
@@ -44,13 +37,13 @@ export function frame(body, frames) {
     // if ('delay' in frame) { nextDelay = Math.max(frame.delay, nextDelay); }
 
     if ('value' in frame) {
-      const el = q(frame.value.q);
+      const el = node.querySelector(frame.value.q);
       el.value = frame.value.value;
     }
 
     if ('attr' in frame) {
       const attr = frame.attr;
-      const el = q(attr.q);
+      const el = node.querySelector(attr.q);
       if (attr.value !== undefined) {
         el.setAttribute(attr.name, attr.value);
       } else {
@@ -60,7 +53,7 @@ export function frame(body, frames) {
 
     if ('keyboard' in frame) {
       const k = frame.keyboard;
-      const el = q(k.q);
+      const el = node.querySelector(k.q);
       let remaining = k.value || '';
       el.focus();
       let first = true;
@@ -87,7 +80,7 @@ export function frame(body, frames) {
     }
 
     if ('click' in frame) {
-      const el = q(frame.click);
+      const el = node.querySelector(frame.click);
       el.focus();
       window.setTimeout(() => {
         el.click();
@@ -98,7 +91,7 @@ export function frame(body, frames) {
     }
 
     if ('scroll' in frame) {
-      const el = q(frame.scroll.q);
+      const el = node.querySelector(frame.scroll.q);
 
       const startAt = el.scrollTop;
       const scrollTo = frame.scroll.to;
