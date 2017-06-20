@@ -13,7 +13,7 @@ class StandardSceneElement extends HTMLElement {
 :host {
   transform-style: preserve-3d;
   transform-origin: 50% 50%;
-  transition: transform 0.5s cubic-bezier(0.87,-0.41,0.19,1.44);
+  transition: transform var(--frame2) cubic-bezier(0.87,-0.41,0.19,1.44);
   display: flex;
   justify-content: center;
 }
@@ -23,12 +23,26 @@ class StandardSceneElement extends HTMLElement {
 :host([scene="side"]) {
   transform: rotateX(-10deg) rotateY(10deg) scale(1.0);
 }
+#flip {
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+}
+#flip.flip {
+  transition: transform var(--frame) ease-in-out;
+  transform: rotateY(360deg);
+}
 </style>
-<slot></slot>
+<div id="flip"><slot></slot></div>
     `;
+
+    const flip = root.getElementById('flip');
+    flip.addEventListener('transitionend', ev => flip.className = '');
 
     this.addEventListener('scene', ev => {
       this.scene = ev.detail || null;
+    });
+    this.addEventListener('flip', ev => {
+      flip.className = 'flip';
     });
   }
 

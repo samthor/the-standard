@@ -1,0 +1,107 @@
+
+#page {
+  height: 100%;
+  width: 100%;
+  background: #eee;
+  box-shadow: 0 0 1px black inset;
+  overflow: hidden;
+}
+
+#hand {
+  --depth: 800px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform var(--frame) ease-in-out;
+  transform-style: preserve-3d;
+}
+
+#hand .pointer {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  margin-top: -60px;
+  margin-left: -60px;
+  background: url('assets/cursor.png') center no-repeat;
+  background-size: contain;
+  transform: translateZ(var(--depth));
+  transition: opacity var(--frame4);
+}
+
+#hand > div {
+  opacity: 0;
+}
+#hand.show > div {
+  opacity: 1;
+}
+
+#hand .dragsize {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: red;
+  margin-top: -40px;
+  margin-left: -40px;
+}
+#hand .shadow {
+  filter: blur(10px);
+  border-radius: 10px;
+  background: black;
+  transform: scale(0.5);
+}
+#hand.show .shadow {
+  opacity: 0.5 !important;
+}
+#hand .holding {
+  position: absolute;
+  transform: translateZ(calc(var(--depth) - 10px));
+  transition: transform var(--frame2) cubic-bezier(0.755, 1.575, 0.175, 0.745);
+  transition-delay: var(--frame2);
+}
+
+#hand.letgo .holding {
+  transform: translateZ(0px);
+}
+#hand.letgo .shadow {
+  opacity: 0 !important;
+  transition: opacity var(--frame2) cubic-bezier(0.755, 1.575, 0.175, 0.745), transform var(--frame2);
+  transition-delay: var(--frame2);
+  transform: scale(1);
+}
+#hand.noshadow {
+  --depth: 200px;
+}
+#hand.noshadow .shadow {
+  display: none;
+}
+#hand.bounce .holding {
+  animation: bouncey var(--frame);
+}
+
+@keyframes bouncey {
+  0% { transform: translateZ(calc(var(--depth) - 10px)); opacity: 1; }
+  20% { transform: translateZ(0px); opacity: 1; }
+  100% { transform: translateZ(400px) translateX(400px) rotateY(80deg) rotateZ(-20deg); opacity: 0; }
+}
+
+
+form {
+  margin: 1em auto;
+  max-width: 20em;
+  background: #ccc;
+  border-radius: 10px;
+  padding: 0.5em;
+  display: flex;
+  flex-flow: column;
+}
+form h1 {
+  margin: 0.25em;
+}
+form input {
+  font-size: 1em;
+  margin: 0.25em;
+}
+form input[type="file"] {
+  background: #eee;
+  padding: 4px;
+}

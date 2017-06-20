@@ -9,12 +9,16 @@ class StandardPageElement extends HTMLElement {
     root.innerHTML = `
 <style>
 #outer {
-  height: 100%;
+  -webkit-backface-visibility: none;
+  backface-visibility: none;
+  height: calc(100% - 10px);
   border: 10px solid transparent;
   margin: -10px;
   border-top-color: #b5b5b5;  /* FIXME: otherwise the top is pushed out white */
 }
-#html {
+#html, #body {
+  -webkit-backface-visibility: none;
+  backface-visibility: none;
   min-height: 100%;
   height: 100%;
   transform-style: preserve-3d;

@@ -102,7 +102,14 @@ async function playVideo(id) {
   }
 
   const nextDelay = 2500;
-  page.style.setProperty('--frame', nextDelay + 'ms');
+
+  // set --frame, --frame-2, --frame-4, --frame-8
+  scene.style.setProperty('--frame', nextDelay + 'ms');
+  for (let i = 1; i <= 3; ++i) {
+    const part = 1 << i;
+    scene.style.setProperty(`--frame${part}`, `${nextDelay / part}ms`);
+  }
+
   for (let count = 1;; ++count) {
     await paused;
     if (!page.parentNode) {
