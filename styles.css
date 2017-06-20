@@ -13,3 +13,7 @@ html {
 ts-scene[disabled] {
   opacity: 0.25;
 }
+
+tsui-header {
+  margin-bottom: 2em;
+}
