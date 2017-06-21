@@ -96,10 +96,9 @@ document.body.addEventListener('script', ev => playVideo(header.script));
  * Starts playing the video with the passed ID.
  */
 async function playVideo(id) {
-  scene.disabled = true;
-  scene.scene = null;
-  device.device = null;
-  device.textContent = '';
+  scene.reset();
+  device.reset();
+  device.textContent = '';  // remove previous page from DOM
   frame.textContent = '\u{2014}';
   const script = scripts[id] || null;
   if (!script) {

@@ -1,16 +1,13 @@
 
 function applyNextArg(node, arg) {
   const clone = arg ? JSON.parse(JSON.stringify(arg)) : {};
-  if (clone.scene) {
-    const init = {detail: arg.scene, bubbles: true, composed: true};
-    node.dispatchEvent(new CustomEvent('scene', init));
-    delete clone.scene;
-  }
-  if (clone.device) {
-    const init = {detail: arg.device, bubbles: true, composed: true};
-    node.dispatchEvent(new CustomEvent('device', init));
-    delete clone.device;
-  }
+  ['scene', 'device', 'rotate'].forEach(op => {
+    if (clone[op]) {
+      const init = {detail: clone[op], bubbles: true, composed: true};
+      node.dispatchEvent(new CustomEvent(op, init));
+      delete clone[op];
+    }
+  });
   for (const k in clone) {
     throw new Error('unexpected scene arg: ' + k);
   }

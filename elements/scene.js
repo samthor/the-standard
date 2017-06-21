@@ -46,6 +46,11 @@ class StandardSceneElement extends HTMLElement {
     });
   }
 
+  reset() {
+    this.disabled = true;
+    this.scene = null;
+  }
+
   set disabled(v) {
     if (v) {
       this.setAttribute('disabled', this.getAttribute('disabled') || '');

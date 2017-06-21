@@ -11,10 +11,13 @@ class StandardPageElement extends HTMLElement {
 #outer {
   -webkit-backface-visibility: none;
   backface-visibility: none;
-  height: calc(100% - 10px);
-  border: 10px solid transparent;
-  margin: -10px;
-  border-top-color: #b5b5b5;  /* FIXME: otherwise the top is pushed out white */
+  height: 100%;
+  /*
+  // height: calc(100% - 10px);
+  // border: 10px solid transparent;
+  // margin: -10px;
+  // border-top-color: #b5b5b5;  /* FIXME: otherwise the top is pushed out white */
+  */
 }
 #html, #body {
   -webkit-backface-visibility: none;
