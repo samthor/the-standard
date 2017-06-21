@@ -1,8 +1,4 @@
 
-// const styles = window.getComputedStyle(node);
-// const duration = styles.getPropertyValue('--frame');
-// console.info('duration is', duration);
-
 function setScene(node, scene) {
   const arg = {detail: scene, bubbles: true, composed: true};
   node.dispatchEvent(new CustomEvent('scene', arg));

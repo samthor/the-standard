@@ -55,6 +55,9 @@ let scripts = {};
       }
       playpause.play = !paused;
       break;
+    case 'ArrowLeft':
+      playVideo(header.script);
+      break;
     case 'ArrowRight':
       if (r) {
         r();
