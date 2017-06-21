@@ -135,9 +135,6 @@ button:focus, .button-fake *:focus + .button {
       <slot name="status"></slot>
     </div>
   </div>
-  <button id="step">
-    <i class="material-icons">computer</i>
-  </button>
 </div>
     `;
 
@@ -190,11 +187,6 @@ button:focus, .button-fake *:focus + .button {
       }
 
       updateScript(value);
-    });
-
-    const stepEl = root.getElementById('step');
-    stepEl.addEventListener('click', ev => {
-      this.dispatchEvent(new CustomEvent('step', {bubbles: true}));
     });
   }
 

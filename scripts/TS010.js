@@ -17,7 +17,7 @@ export default async function(node, next) {
     savedForLater = ev.dataTransfer.files;
     console.info('got files in savedForLater', savedForLater);
   });
-  await next({scene: 'side'});
+  await next({scene: 'side', device: 'desktop'});
 
   hand.classList.add('show');
   hand.style.transform = 'translate(180px, 120px)';

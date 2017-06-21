@@ -52,7 +52,7 @@ let scripts = {};
         paused = null;
         r();
         r = null;
-      }3
+      }
       playpause.play = !paused;
       break;
     case 'ArrowLeft':
@@ -73,7 +73,6 @@ document.body.addEventListener('scripts', ev => {
   playVideo(header.script);
 });
 document.body.addEventListener('script', ev => playVideo(header.script));
-document.body.addEventListener('step', ev => device.stepDevice());
 
 /**
  * Starts playing the video with the passed ID.
@@ -81,6 +80,7 @@ document.body.addEventListener('step', ev => device.stepDevice());
 async function playVideo(id) {
   scene.disabled = true;
   scene.scene = null;
+  device.device = null;
   device.textContent = '';
   frame.textContent = '\u{2014}';
   const script = scripts[id] || null;
@@ -113,7 +113,7 @@ async function playVideo(id) {
     scene.style.setProperty(`--frame${part}`, `${nextDelay / part}ms`);
   }
 
-  for (let count = 1;; ++count) {
+  for (let count = 0;; ++count) {
     await paused;
     if (!page.parentNode) {
       return false;  // no longer on the page

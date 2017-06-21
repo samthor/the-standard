@@ -5,7 +5,9 @@
  * contents of the screen.
  */
 class StandardDeviceElement extends HTMLElement {
-  static get observedAttributes() {return ['rows', 'overflow']; }
+  static get observedAttributes() { return ['rows', 'overflow']; }
+
+  static get devices() { return ['', 'tablet', 'desktop']; }
 
   constructor() {
     super();
@@ -178,13 +180,11 @@ class StandardDeviceElement extends HTMLElement {
     `;
 
     this.holder_ = root.querySelector('div.holder');
-
-    // const attrs = 'device';
-    // attrs.split().forEach(attr => this.attributeChangedCallback(attr, undefined, this.getAttribute(attr)));
+    this.addEventListener('device', ev => this.device = ev.detail);
   }
 
   stepDevice() {
-    const devices = ['', 'tablet', 'desktop'];
+    const devices = StandardDeviceElement.devices;
     const device = this.getAttribute('device') || '';
     const target = (devices.indexOf(device) + 1) % devices.length;
 
@@ -196,11 +196,15 @@ class StandardDeviceElement extends HTMLElement {
     }
   }
 
-  set overflow(value) {
-    if (value) {
-      this.setAttribute('overflow', '');
+  get device() {
+    return this.getAttribute('device');
+  }
+
+  set device(v) {
+    if (v) {
+      this.setAttribute('device', v);
     } else {
-      this.removeAttribute('overflow');
+      this.removeAttribute('device');
     }
   }
 }

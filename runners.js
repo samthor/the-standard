@@ -6,6 +6,11 @@ function applyNextArg(node, arg) {
     node.dispatchEvent(new CustomEvent('scene', init));
     delete clone.scene;
   }
+  if (clone.device) {
+    const init = {detail: arg.device, bubbles: true, composed: true};
+    node.dispatchEvent(new CustomEvent('device', init));
+    delete clone.device;
+  }
   for (const k in clone) {
     throw new Error('unexpected scene arg: ' + k);
   }
