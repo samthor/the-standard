@@ -70,6 +70,8 @@ button, .button {
   margin-top: 0.2em;
   opacity: 0.75;
   font-weight: 900;
+  width: auto;
+  will-change: transform;
 }
 button.id, .button.id {
   min-width: 6ch;
