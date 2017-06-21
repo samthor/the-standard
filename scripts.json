@@ -125,5 +125,8 @@
   },
   "TS010": {
     "name": "Drag and Drop"
+  },
+  "TS016": {
+    "name": "Gyroscope"
   }
 }
