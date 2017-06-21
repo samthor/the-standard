@@ -29,9 +29,13 @@ export function asyncer(node, method) {
     if (!eventually) {
       // 1st call
       eventually = method(node, next);  // final promise
-      eventually.then(() => done = true);
+      eventually.then(() => done = true, err => done = err);
     }
-    return done;
+    if (typeof done !== 'boolean') {
+      throw done;
+    } else {
+      return done;
+    }
   };
 }
 
