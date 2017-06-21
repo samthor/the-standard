@@ -1,22 +1,44 @@
 
-export function generator(node, method) {
-  const iter = method(node);
-
-  return function(nextDelay) {
-    const out = iter.next();
-    if (out.done) {
-      return true;  // stop calling me
-    }
-    if (out.value !== true) {
-      throw new Error('unsupported generator value: ' + value);
-    }
+function applyNextArg(node, arg) {
+  const clone = arg ? JSON.parse(JSON.stringify(arg)) : {};
+  if (clone.scene) {
+    const init = {detail: arg.scene, bubbles: true, composed: true};
+    node.dispatchEvent(new CustomEvent('scene', init));
+    delete clone.scene;
   }
+  for (const k in clone) {
+    throw new Error('unexpected scene arg: ' + k);
+  }
+}
+
+export function asyncer(node, method) {
+  let done = false;
+  let eventually = null;
+  let localResolve = () => undefined;
+  let nextFrame = null;
+  const next = async arg => {
+    applyNextArg(node, arg);
+    await nextFrame;
+  };
+
+  return () => {
+    const r = localResolve;
+    nextFrame = new Promise(resolve => localResolve = resolve);
+    r();  // call this after setting up anew, so we block next frame
+
+    if (!eventually) {
+      // 1st call
+      eventually = method(node, next);  // final promise
+      eventually.then(() => done = true);
+    }
+    return done;
+  };
 }
 
 export function frame(node, frames) {
   let i = -1;
 
-  return function(nextDelay) {
+  return nextDelay => {
     const frame = frames[++i];
     if (!frame) {
       console.info('animation done');

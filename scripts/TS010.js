@@ -1,10 +1,5 @@
 
-function setScene(node, scene) {
-  const arg = {detail: scene, bubbles: true, composed: true};
-  node.dispatchEvent(new CustomEvent('scene', arg));
-}
-
-export default function*(node) {
+export default async function(node, next) {
   const page = node.querySelector('#page');
   const hand = node.querySelector('#hand');
   const form = node.querySelector('form');
@@ -22,73 +17,68 @@ export default function*(node) {
     savedForLater = ev.dataTransfer.files;
     console.info('got files in savedForLater', savedForLater);
   });
-
-  setScene(node, 'side');
-  yield true;
+  await next({scene: 'side'});
 
   hand.classList.add('show');
   hand.style.transform = 'translate(180px, 120px)';
-  yield true;
+  await next();
 
   hand.classList.add('letgo');
-  yield true;
+  await next();
 
   hand.classList.remove('show');
   node.classList.add('mode-photo');
-  yield true;
+  await next();
 
-  // nb. this is the reset but it looks ugly
-  setScene(node, 'flat');
   node.classList.remove('mode-photo');
   hand.style.transform = 'translate(-1800px, 1200px)';
   hand.className = 'noshadow';
-  yield true;
+  await next({scene: 'flat'});
 
   hand.classList.add('show');
   hand.style.transform = 'translate(200px, 145px)';
-  yield true;
+  await next();
 
   hand.className = 'letgo bounce noshadow'
-  yield true;
+  await next();
 
   // setup frame
   hand.style.transform = 'translate(-500px, 20px)';
   hand.className = 'noshadow';
-  setScene(node, 'side');
-  yield true;
+  await next({scene: 'side'});
 
   form.hidden = false;
   hand.classList.add('show');
   hand.style.transform = 'translate(248px, 180px)';
-  yield true;
+  await next();
 
   hand.classList.add('letgo');
-  yield true;
+  await next();
 
   hand.classList.remove('show');
   console.info('applying savedForLater', savedForLater);
   input.files = savedForLater;
-  yield true;
+  await next();
 
   submit.focus();
   submit.click();
-  yield true;
+  await next();
 
   form.hidden = true;
   hand.className = 'noshadow';
   hand.style.transform = 'translate(800px, 120px)';
-  yield true;
+  await next();
 
   const drophere = node.querySelector('#drophere');
   drophere.hidden = false;
   hand.classList.add('show');
   hand.classList.add('multiple');
   hand.style.transform = 'translate(248px, 220px)';
-  yield true;
+  await next();
 
   hand.classList.add('letgo');
   hand.classList.add('fade');
-  yield true;
+  await next();
 
   // "Upload these files directory with JavaScript"...
   hand.classList.remove('show');
@@ -96,21 +86,21 @@ export default function*(node) {
   const heading = drophere.querySelector('h1');
   const initialText = heading.textContent;
   heading.textContent = 'Uploading...';
-  yield true;
+  await next();
 
   drophere.className = 'upload';
-  yield true;
+  await next();
 
   drophere.className = '';
   heading.textContent = 'Done!';
-  yield true;
+  await next();
 
   heading.textContent = initialText;
   drophere.style.borderColor = 'red';
-  yield true;
+  await next();
 
   drophere.style.borderColor = 'transparent';
   page.style.borderColor = 'red';
-  yield true;
+  await next();
 
 }

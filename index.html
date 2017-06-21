@@ -100,8 +100,8 @@ async function playVideo(id) {
   if (script.frames) {
     runner = runners.frame(page.root, script.frames);
   } else {
-    const generator = (await importScript(`./scripts/${id}.js`)).default;
-    runner = runners.generator(page.root, generator);
+    const method = (await importScript(`./scripts/${id}.js`)).default;
+    runner = runners.asyncer(page.root, method);
   }
 
   const nextDelay = 2500;
