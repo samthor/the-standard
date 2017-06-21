@@ -29,6 +29,19 @@ const mo = new MutationObserver(_ => {
 mo.observe(header, {attributes: true, attributeFilter: ['script']});
 </script>
 
+<div id="help" hidden>
+  <dl>
+    <dt>?</dt>
+    <dd>Toggle Help</dd>
+    <dt>SPACE</dt>
+    <dd>Pause/Play</dd>
+    <dt>&larr;</dt>
+    <dd>Restart</dd>
+    <dt>&rarr;</dt>
+    <dd>Next Frame</dd>
+  </dl>
+</div>
+
 <ts-scene id="scene" disabled>
   <ts-device id="device" device="tablet"></ts-device>
 </ts-scene>
@@ -63,6 +76,9 @@ let scripts = {};
         r();
         paused = new Promise(resolve => r = resolve);
       }
+      break;
+    case '?':
+      help.hidden = !help.hidden;
       break;
     }
   });

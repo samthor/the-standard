@@ -17,3 +17,28 @@ ts-scene[disabled] {
 tsui-header {
   margin-bottom: 2em;
 }
+
+#help {
+  position: absolute;
+  right: 0;
+  margin: 0.5em;
+  margin-top: -1.5em;
+  background: rgba(0, 0, 0, 0.66);
+  border-radius: 10px;
+  color: white;
+  min-width: 180px;
+  max-width: calc(100vw - 1em);
+}
+#help dl {
+  padding: 0.5em 0.75em;
+}
+#help dt {
+  display: inline-block;
+  float: right;
+  margin-left: 0.75ch;
+  font-weight: bold;
+  color: yellow;
+}
+#help dd {
+  display: block;
+}
