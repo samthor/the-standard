@@ -52,7 +52,7 @@ let scripts = {};
         paused = null;
         r();
         r = null;
-      }
+      }3
       playpause.play = !paused;
       break;
     case 'ArrowLeft':
@@ -106,9 +106,9 @@ async function playVideo(id) {
 
   const nextDelay = 2500;
 
-  // set --frame, --frame-2, --frame-4, --frame-8
+  // set --frame, --frame2, --frame4, --frame8, --frame16
   scene.style.setProperty('--frame', nextDelay + 'ms');
-  for (let i = 1; i <= 3; ++i) {
+  for (let i = 1; i <= 4; ++i) {
     const part = 1 << i;
     scene.style.setProperty(`--frame${part}`, `${nextDelay / part}ms`);
   }
