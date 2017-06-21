@@ -9,19 +9,13 @@ class StandardPageElement extends HTMLElement {
     root.innerHTML = `
 <style>
 #outer {
-  -webkit-backface-visibility: none;
-  backface-visibility: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   height: 100%;
-  /*
-  // height: calc(100% - 10px);
-  // border: 10px solid transparent;
-  // margin: -10px;
-  // border-top-color: #b5b5b5;  /* FIXME: otherwise the top is pushed out white */
-  */
 }
 #html, #body {
-  -webkit-backface-visibility: none;
-  backface-visibility: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   min-height: 100%;
   height: 100%;
   transform-style: preserve-3d;

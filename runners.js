@@ -1,8 +1,8 @@
 
 function applyNextArg(node, arg) {
   const clone = arg ? JSON.parse(JSON.stringify(arg)) : {};
-  ['scene', 'device', 'rotate'].forEach(op => {
-    if (clone[op]) {
+  ['scene', 'device', 'rotate', 'tweak'].forEach(op => {
+    if (op in clone) {
       const init = {detail: clone[op], bubbles: true, composed: true};
       node.dispatchEvent(new CustomEvent(op, init));
       delete clone[op];

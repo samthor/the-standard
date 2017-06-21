@@ -17,7 +17,7 @@ const devices = {
  * Supports several alternate devices ('tablet', 'desktop') and rotate 'left' or 'right'.
  */
 class StandardDeviceElement extends HTMLElement {
-  static get observedAttributes() { return ['device', 'rotate']; }
+  static get observedAttributes() { return ['device', 'rotate', 'tweak']; }
 
   constructor() {
     super();
@@ -37,12 +37,20 @@ class StandardDeviceElement extends HTMLElement {
   transform-style: preserve-3d;
   transform: rotate(0);
   transition: transform var(--duration);
+  will-change: transform;
 }
 :host([rotate="left"]) .holder {
   transform: rotate(90deg);
 }
 :host([rotate="right"]) .holder {
   transform: rotate(-90deg);
+}
+
+#tweak {
+  will-change: transform;
+  transform: rotate(0);
+  transition: transform var(--frame) ease-in-out;
+  transform-style: preserve-3d;
 }
 
 .device {
@@ -198,22 +206,25 @@ class StandardDeviceElement extends HTMLElement {
 }
 
 </style>
-<div class="holder">
-  <div class="device">
-    <div class="device shadow">
-      <div class="solid"></div>
-    </div>
-    <div class="camera"></div>
-    <div id="border">
-      <div id="color"></div>
-      <div id="contents">
-<slot></slot>
+<div id="tweak">
+  <div class="holder">
+    <div class="device">
+      <div class="device shadow">
+        <div class="solid"></div>
+      </div>
+      <div class="camera"></div>
+      <div id="border">
+        <div id="color"></div>
+        <div id="contents">
+  <slot></slot>
+        </div>
       </div>
     </div>
   </div>
 </div>
     `;
 
+    this.tweak_ = root.getElementById('tweak');
     this.border_ = root.getElementById('border');
     this.contents_ = root.getElementById('contents');
     this.contents_.addEventListener('transitionend', ev => {
@@ -221,11 +232,17 @@ class StandardDeviceElement extends HTMLElement {
     });
     this.holder_ = root.querySelector('div.holder');
 
+    this.addEventListener('tweak', ev => this.tweak = ev.detail);
     this.addEventListener('device', ev => this.device = ev.detail);
     this.addEventListener('rotate', ev => this.rotate = ev.detail);
   }
 
   attributeChangedCallback(attrName, oldValue, newValue) {
+    if (attrName === 'tweak') {
+      this.tweak_.style.transform = newValue || null;
+      return false;;
+    }
+
     if (attrName === 'rotate') {
       this.border_.classList.add('during-rotate');
     }
@@ -246,6 +263,18 @@ class StandardDeviceElement extends HTMLElement {
   reset() {
     this.rotate = null;
     this.device = null;
+  }
+
+  get tweak() {
+    return this.getAttribute('tweak') || null;
+  }
+
+  set tweak(v) {
+    if (v) {
+      this.setAttribute('tweak', v);
+    } else {
+      this.removeAttribute('tweak');
+    }
   }
 
   get rotate() {

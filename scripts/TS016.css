@@ -1,0 +1,98 @@
+
+#body {
+  overflow: hidden;
+  position: relative;
+}
+
+*[hidden] {
+  display: block;
+  opacity: 0;
+}
+
+#normal {
+  transition: opacity var(--frame2);
+}
+#game {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%);
+  width: 480px;
+  height: 480px;
+  transition: opacity var(--frame2);
+}
+#game canvas {
+  width: 480px;
+  height: 480px;
+}
+
+.boxes {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 0.5em;
+}
+.box {
+  width: 90%;
+  height: 100px;
+  margin: 0.5em;
+  background: #eee;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  justify-content: center;
+  transition: all var(--frame4);
+}
+.box.active {
+  background: #4180f8;
+  color: white;
+}
+.box h1 {
+  margin: 0;
+  margin-bottom: 8px;
+}
+.box code {
+  font-size: 0.8em;
+  transition: opacity var(--frame4);
+  opacity: 1;
+}
+#outer:not(.measure) code {
+  opacity: 0;
+}
+
+#explainer {
+  transition: opacity var(--frame2);
+  display: flex;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  align-items: center;
+  flex-flow: column;
+  justify-content: center;
+  height: 100%;
+  color: black;
+}
+
+#form {
+  padding: 1em;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  transition: opacity var(--frame2);
+}
+
+#form h1 {
+  margin: 0.5em 0;
+}
+
+#form label {
+  font-size: 18px;
+  display: block;
+}
+#form input {
+  font-size: 24px;
+  line-height: 32px;
+  margin-top: 0.33em;
+}
