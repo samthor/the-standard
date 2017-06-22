@@ -5,7 +5,7 @@ export default async function(node, next) {
   const form = node.querySelector('form');
   const input = form.querySelector('input[type="file"]');
   const submit = form.querySelector('input[type="submit"]')
-  hand.style.transform = 'translate(800px, 200px)';
+  hand.style.transform = 'translate(200px, 400px)';
 
   form.addEventListener('submit', ev => ev.preventDefault());
 
@@ -31,7 +31,7 @@ export default async function(node, next) {
   await next();
 
   node.classList.remove('mode-photo');
-  hand.style.transform = 'translate(-1800px, 1200px)';
+  hand.style.transform = 'translate(700px, 720px)';
   hand.className = 'noshadow';
   await next({scene: 'flat'});
 
@@ -43,7 +43,7 @@ export default async function(node, next) {
   await next();
 
   // setup frame
-  hand.style.transform = 'translate(-500px, 20px)';
+  hand.style.transform = 'translate(220px, 380px)';
   hand.className = 'noshadow';
   await next({scene: 'side'});
 
@@ -66,14 +66,14 @@ export default async function(node, next) {
 
   form.hidden = true;
   hand.className = 'noshadow';
-  hand.style.transform = 'translate(800px, 120px)';
+  hand.style.transform = 'translate(220px, 510px)';
   await next();
 
   const drophere = node.querySelector('#drophere');
   drophere.hidden = false;
   hand.classList.add('show');
   hand.classList.add('multiple');
-  hand.style.transform = 'translate(248px, 220px)';
+  hand.style.transform = 'translate(248px, 260px)';
   await next();
 
   hand.classList.add('letgo');
