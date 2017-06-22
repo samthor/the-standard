@@ -26,7 +26,7 @@ class StandardDeviceElement extends HTMLElement {
     root.innerHTML = `
 <style>
 :host {
-  --duration: var(--frame4, 0.5s);
+  --duration: var(--frame8);
 }
 
 .holder {
@@ -77,7 +77,7 @@ class StandardDeviceElement extends HTMLElement {
   z-index: -10;
   background: transparent;
   height: 1em;
-  transition: all 0.5s;
+  transition: all var(--duration);
   border-radius: 100%;
 }
 .device:before {
