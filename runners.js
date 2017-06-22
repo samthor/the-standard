@@ -21,6 +21,9 @@ export function asyncer(node, method) {
   const next = async arg => {
     applyNextArg(node, arg);
     await nextFrame;
+    return {timing(v) {
+      console.info('timing set', v);
+    }};
   };
 
   return () => {
