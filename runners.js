@@ -13,7 +13,7 @@ function applyNextArg(node, arg) {
   }
 }
 
-export function asyncer(node, method) {
+export function asyncer(node, method, timing) {
   let done = false;
   let eventually = null;
   let localResolve = () => undefined;
@@ -21,9 +21,6 @@ export function asyncer(node, method) {
   const next = async arg => {
     applyNextArg(node, arg);
     await nextFrame;
-    return {timing(v) {
-      console.info('timing set', v);
-    }};
   };
 
   return () => {
@@ -33,7 +30,7 @@ export function asyncer(node, method) {
 
     if (!eventually) {
       // 1st call
-      eventually = method(node, next);  // final promise
+      eventually = method(node, next, timing);  // final promise
       eventually.then(() => done = true, err => done = err);
     }
     if (typeof done !== 'boolean') {

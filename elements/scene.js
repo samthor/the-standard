@@ -16,6 +16,11 @@ class StandardSceneElement extends HTMLElement {
   transition: transform var(--frame2) cubic-bezier(0.87,-0.41,0.19,1.44);
   display: flex;
   justify-content: center;
+
+  --frame2: calc(var(--frame) / 2);
+  --frame4: calc(var(--frame) / 4);
+  --frame8: calc(var(--frame) / 8);
+  --frame16: calc(var(--frame) / 16);
 }
 :host([scene="flat"]) {
   transform: scale(0.75) rotateX(55deg) rotateZ(45deg);

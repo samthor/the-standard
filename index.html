@@ -108,11 +108,13 @@ async function playVideo(id) {
   const page = document.createElement('ts-page');
   device.appendChild(page);
   scene.disabled = false;
+  scene.style.setProperty('--frame', '0ms');
 
   const fetchHTML = window.fetch(`scripts/${id}.html`).then(out => out.text());
   const fetchCSS = window.fetch(`scripts/${id}.css`).then(out => out.text());
   [page.html, page.css] = await Promise.all([fetchHTML, fetchCSS]);
 
+  const nextDelay = 2500;
   let runner;
   if (script.frames) {
     runner = runners.frame(page.root, script.frames);
@@ -121,14 +123,7 @@ async function playVideo(id) {
     runner = runners.asyncer(page.root, method);
   }
 
-  const nextDelay = 2500;
-
-  // set --frame, --frame2, --frame4, --frame8, --frame16
-  scene.style.setProperty('--frame', nextDelay + 'ms');
-  for (let i = 1; i <= 4; ++i) {
-    const part = 1 << i;
-    scene.style.setProperty(`--frame${part}`, `${nextDelay / part}ms`);
-  }
+  scene.style.setProperty('--frame', '2500ms');
 
   for (let count = 0;; ++count) {
     await paused;
