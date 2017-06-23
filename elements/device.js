@@ -26,7 +26,7 @@ class StandardDeviceElement extends HTMLElement {
     root.innerHTML = `
 <style>
 :host {
-  --duration: var(--frame8);
+  --duration: var(--frame2);
 }
 
 .holder {

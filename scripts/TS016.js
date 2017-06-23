@@ -1,7 +1,7 @@
 
 import 'https://cdn.rawgit.com/liabru/matter-js/0.10.0/build/matter.min.js';  // side-effects
 
-export default async function(node, next) {
+export default async function(node, next, timing) {
   const $ = {};
   Array.from(node.querySelectorAll('[id]')).forEach(node => $[node.id] = node);
 
@@ -53,21 +53,28 @@ export default async function(node, next) {
     $.landscape.classList.toggle('active', !!rotate);
   };
 
+  timing(3 * 1000);
   setRotate(null);
   await next({scene: 'side', device: 'tablet'});
   // frames start from here
 
+  timing(6 * 1000);
   setRotate('left');
   await next({rotate: 'left'});
 
+  timing(10 * 1000);
   setRotate(null);
   await next({rotate: null});
 
+  timing(16 * 1000);
   setRotate('right');
   await next({rotate: 'right'});
 
   node.classList.add('measure');
+  timing(20 * 1000);
   await next();
+
+  timing(26 * 1000);
   await next({device: ''});
 
   $.game.hidden = false;
@@ -80,52 +87,69 @@ export default async function(node, next) {
     Matter.World.add(world, face);
   }, delay);
 
+  timing(30 * 1000);
   await next();
 
   world.gravity.x = -0.4;
   await next({tweak: 'rotate(-10deg)'});
 
   world.gravity.x = 0;
-  $.game.hidden = true;
   await next({tweak: ''});
+
+  $.game.hidden = true;
   await next({rotate: ''});
 
   $.explainer.hidden = false;
   $.type.textContent = 'Alpha';
   $.note.textContent = 'around the Z-axis';
-  await next({tweak: 'rotateY(+50deg)'});
-  await next({tweak: 'rotateY(-50deg)'});
+  timing(38 * 1000);
+  await next({tweak: 'rotateY(+20deg)'});
+  timing(38.75 * 1000);
+  await next({tweak: 'rotateY(-20deg)'});
+  timing(39.5 * 1000);
 
   $.type.textContent = 'Beta';
   $.note.textContent = 'around the X-axis';
-  await next({tweak: 'rotateX(+50deg)'});
-  await next({tweak: 'rotateX(-50deg)'});
+  timing(40.25 * 1000);
+  await next({tweak: 'rotateX(+20deg)'});
+  timing(41 * 1000);
+  await next({tweak: 'rotateX(-20deg)'});
+  timing(41.75 * 1000);
 
   $.type.textContent = 'Gamma';
   $.note.textContent = 'around the Y-axis';
+  timing(42.5 * 1000);
   await next({tweak: 'rotateZ(+30deg)'});
+  timing(43.25 * 1000);
   await next({tweak: 'rotateZ(-30deg)'});
+  timing(44 * 1000);
 
   await next({tweak: ''});
   $.game.hidden = false;
   $.explainer.hidden = true;
 
   world.gravity.x = +0.4;
+  timing(46 * 1000);
   await next({tweak: 'rotate(+15deg)'});
 
   world.gravity.x = -0.4;
+  timing(48 * 1000);
   await next({tweak: 'rotate(-30deg)'});
 
   world.gravity.x = 0;
+  timing(50 * 1000);
   await next({tweak: ''});
 
   $.game.hidden = true;
   $.form.hidden = false;
+  timing(54 * 1000);
+  await next({tweak: ''});
+
+  timing(56 * 1000);
   await next({tweak: ''});
 
   // nb. shake added by video editor :)
   $.form.querySelector('input').value = '';
-
   await next();
 
   // cleanup here

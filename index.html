@@ -92,6 +92,17 @@ document.body.addEventListener('scripts', ev => {
 });
 document.body.addEventListener('script', ev => playVideo(header.script));
 
+function setFrame(delay) {
+  if (delay !== undefined) {
+    scene.style.setProperty('--frame', `${delay}ms`);
+    for (let i = 1; i <= 4; ++i) {
+      const part = 1 << i;
+      scene.style.setProperty(`--frame${part}`, `${delay / part}ms`);
+    }
+  }
+  scene.offsetLeft;  // force layout
+}
+
 /**
  * Starts playing the video with the passed ID.
  */
@@ -108,36 +119,66 @@ async function playVideo(id) {
   const page = document.createElement('ts-page');
   device.appendChild(page);
   scene.disabled = false;
-  scene.style.setProperty('--frame', '0ms');
+  setFrame(0);
 
   const fetchHTML = window.fetch(`scripts/${id}.html`).then(out => out.text());
   const fetchCSS = window.fetch(`scripts/${id}.css`).then(out => out.text());
   [page.html, page.css] = await Promise.all([fetchHTML, fetchCSS]);
 
-  const nextDelay = 2500;
+  const defaultFrameDuration = 2500;
+  let currentTime = 0;
+  let nextDelay = 0;
+
+  let timingSet = false;
+
+  const timing = (target, frame = undefined) => {
+    if (target < currentTime) {
+      throw new Error(`target before currentTime: ${target} < ${currentTime}`);
+    }
+    nextDelay = target - currentTime;
+
+    if (frame === undefined) {
+      frame = Math.min(nextDelay, defaultFrameDuration);
+    } else if (frame > nextDelay) {
+      frame = nextDelay;
+    } else if (frame < 0) {
+      frame = 0;
+    }
+    console.info('setting frame length', frame, 'nextDelay', nextDelay);
+    setFrame(frame);
+    timingSet = true;
+  };
+
   let runner;
   if (script.frames) {
     runner = runners.frame(page.root, script.frames);
   } else {
     const method = (await importScript(`./scripts/${id}.js`)).default;
-    runner = runners.asyncer(page.root, method);
+    runner = runners.asyncer(page.root, method, timing);
   }
 
-  scene.style.setProperty('--frame', nextDelay + 'ms');
-
   for (let count = 0;; ++count) {
-    await paused;
     if (!page.parentNode) {
       return false;  // no longer on the page
     }
 
+    timingSet = false;
+    setFrame();  // force layout
     frame.textContent = count;
-    const delay = Promises.timeout(paused ? 0 : nextDelay);
-    if (await runner(nextDelay)) {
+    if (runner(nextDelay)) {
       frame.textContent = '\u{2714}';
       return true;  // done
     }
-    await delay;  // if not paused, wait the whole frame duration
+    await Promises.timeout(0);  // FIXME: yields to runner 'thread' and let it happen
+    if (!timingSet && count > 1) {
+      nextDelay = defaultFrameDuration;
+      setFrame(defaultFrameDuration);
+    }
+
+    currentTime += nextDelay;
+
+    const delay = Promises.timeout(paused ? 0 : nextDelay);
+    await Promise.all([delay, paused]);  // if not paused, wait whole nextDelay
   }
 }
 
