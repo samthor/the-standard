@@ -1,13 +1,19 @@
+#body {
+}
 
 #page {
   opacity: 1;
   transition: opacity var(--frame2);
+  transform-style: preserve-3d;
 }
 #photo {
   opacity: 0;
   pointer-events: none;
   position: absolute;
   transition: opacity var(--frame2);
+  will-change: transform;
+  transform-style: preserve-3d;
+  z-index: 100;
 }
 
 .mode-photo #page {
@@ -16,6 +22,8 @@
 }
 .mode-photo #photo {
   opacity: 1;
+  background: white;
+  width: 100%;
   transition-duration: var(--frame8);
 }
 
@@ -27,6 +35,7 @@
   box-sizing: border-box;
   overflow: hidden;
   transition: border-color var(--frame2) ease-in;
+  will-change: transform;
 }
 
 #hand {
@@ -66,10 +75,10 @@
   margin-left: -60px;
 }
 #hand .shadow {
-  filter: blur(5px);
   border-radius: 10px;
+  filter: blur(20px);
   background: black;
-  transform: scale(0.5);
+  transform: scale(0.5) translateZ(10px);
 }
 #hand.show .shadow {
   opacity: 0.25 !important;
