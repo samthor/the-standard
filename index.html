@@ -123,7 +123,7 @@ async function playVideo(id) {
     runner = runners.asyncer(page.root, method);
   }
 
-  scene.style.setProperty('--frame', '2500ms');
+  scene.style.setProperty('--frame', nextDelay + 'ms');
 
   for (let count = 0;; ++count) {
     await paused;
