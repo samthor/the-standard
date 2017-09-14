@@ -126,6 +126,9 @@
   "TS010": {
     "name": "Drag and Drop"
   },
+  "TS012": {
+    "name": "Dialog and Inert"
+  },
   "TS016": {
     "name": "Gyroscope"
   }

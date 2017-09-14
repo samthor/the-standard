@@ -2,7 +2,11 @@
  * Fake lines of text.
  */
 class StandardLinesElement extends HTMLElement {
-  static get observedAttributes() {return ['rows', 'plain']; }
+  static get observedAttributes() {return ['rows', 'plain', 'random']; }
+
+  static get offsets() {
+    return [10, 1, 9, 4, 5, 2, 3, 4, 1, 4, 2, 4, 3, 2, 1];
+  }
 
   constructor() {
     super();
@@ -43,6 +47,13 @@ class StandardLinesElement extends HTMLElement {
     this.holder_.innerText = '';
     const count = this.rows;
 
+    let offsets = [0];
+    if (this.hasAttribute('random')) {
+      offsets = StandardLinesElement.offsets.slice();
+      let op = 0;
+      offsets.sort((a, b) => Math.sin(a - b + (count % ++op)));
+    }
+
     for (let i = 0; i < count; ++i) {
       const d = document.createElement('div');
       d.className = 'line';
@@ -57,6 +68,9 @@ class StandardLinesElement extends HTMLElement {
 
       if (i == count - 1) {
         d.style.width = `${((count % 6)+4) * 10}%`;
+      } else {
+        const off = offsets[i % offsets.length];
+        d.style.marginRight = `${off}%`;
       }
 
       this.holder_.appendChild(d);
