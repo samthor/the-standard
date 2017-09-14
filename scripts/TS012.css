@@ -30,13 +30,17 @@ main {
   will-change: transform;
   background: black;
   opacity: 0;
-  transition: transform var(--frame2) ease-in-out, opacity var(--frame2) ease-in-out;
+  transition: transform var(--frame2) ease-in-out, opacity var(--frame4) ease-in-out;
+  z-index: 10;
 }
 .fill.show {
   opacity: 0.125;
 }
-.fill.out {
-  transform: translateZ(100px);
+.fill.raise {
+  transform: translateZ(150px);
+}
+ts-feature.raise {
+  --depth: 155px;
 }
 
 ts-feature {
@@ -55,17 +59,23 @@ ts-feature {
   border-radius: 2px;
   width: 220px;
   height: 160px;
-  padding: 12px;
+  padding: 10px;
   box-sizing: border-box;
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
   font-size: 24px;
 }
 .dialog p {
   margin: 0;
 }
-form button {
+.dialog .form {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  border: 2px solid transparent;
+  border-radius: 2px;
+  height: 100%;
+  box-sizing: border-box;
+}
+input, button {
   border: 2px solid #ccc;
   border-radius: 2px;
   font-size: 20px;
@@ -77,6 +87,47 @@ form button {
   transition: all 0.25s;
   position: relative;
   background: white;
+  margin-top: 8px;
+  will-change: transform;
+}
+form.mid {
+  border: 2px solid transparent;
+  margin: 12px auto;
+  padding: 22px;
+  width: 200px;
+  will-change: transform;
+  opacity: 1;
+  transition: all var(--frame2) ease-in-out;
+}
+form.mid button.hold {
+  background: #777;
+  color: white;
+}
+form.mid.hide {
+  opacity: 0;
+}
+form.mid.warn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+form.mid.warn button {
+  border-color: red;
+  color: red;
+}
+form.mid.warn button.hold {
+  background: red;
+  color: white;
+}
+.icons {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-around;
+}
+.icons img {
+  width: 42px;
+  height: 42px;
 }
 
 .sidebar {
@@ -99,7 +150,10 @@ form button {
   justify-content: space-between;
   text-align: center;
 }
-.sidebar.hide {
+.sidebar.delay {
+  transition-delay: var(--frame2);
+}
+.sidebar:not(.show) {
   transform: translate(-110%);
 }
 .sidebar * {
@@ -114,4 +168,21 @@ form button {
   width: 100%;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.dialog.native {
+  transition: border-color var(--frame2) ease-in-out;
+  border-color: blue;
+}
+
+.dialog.native .form {
+  transition: border-color var(--frame2) ease-in-out;
+  border-color: green;
+}
+
+.inert {
+  box-shadow: 0 0 0 4px red;
+}
+.fade {
+  opacity: 0.5 !important;
 }

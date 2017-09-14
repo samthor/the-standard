@@ -1,5 +1,5 @@
 
-<div class="fill hide"></div>
+<div class="fill"></div>
 <div class="overflow">
   <div class="sidebar hide">
     <h2>The Standard</h2>
@@ -17,14 +17,31 @@
 </div>
 <main>
   <ts-lines rows="9" random></ts-lines>
+  <form class="hide mid">
+    <input type="text" placeholder="Feedback" />
+    <div class="icons">
+      <img src="assets/faces/happy.png" />
+      <img src="assets/faces/meh.png" />
+      <img src="assets/faces/frown.png" />
+    </div>
+    <button>Submit</button>
+  </form>
+  <form class="mid warn hide" id="warn">
+    <button>
+      Go alone instead
+      <div>⚠️</div>
+    </button>
+  </form>
 </main>
 <ts-feature mode="hide">
   <div class="dialog">
-    <p>
-      It's dangerous to go alone!
-    </p>
-    <form>
-      <button>Take this</button>
-    </form>
+    <div class="form">
+      <p>
+        It's dangerous to go alone!
+      </p>
+      <div>
+        <button>Take this</button>
+      </div>
+    </div>
   </div>
 </ts-feature>

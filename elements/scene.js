@@ -23,6 +23,9 @@ class StandardSceneElement extends HTMLElement {
 :host([scene="side"]) {
   transform: rotateX(-10deg) rotateY(10deg) scale(1.0);
 }
+:host([scene="alt-side"]) {
+  transform: rotateX(-10deg) rotateY(-20deg) scale(1.0);
+}
 #flip {
   transform-style: preserve-3d;
   transform: rotateY(0deg);
