@@ -17,24 +17,26 @@ main {
   overflow: hidden;
 }
 
-#shadow {
+#body {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+}
+
+.fill {
   position: absolute;
   width: 100%;
   left: 0;
   top: 0;
-  z-index: 100;
   height: 100%;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
-}
-#shadow::after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  content: '';
+  will-change: transform;
   background: black;
+  opacity: 0;
+  transition: transform var(--frame2) ease-in-out, opacity var(--frame2) ease-in-out;
+}
+.fill.show {
   opacity: 0.125;
+}
+.fill.out {
+  transform: translateZ(100px);
 }
 
 ts-feature {
@@ -98,7 +100,7 @@ form button {
   text-align: center;
 }
 .sidebar.hide {
-  transform: translate(-100%);
+  transform: translate(-110%);
 }
 .sidebar * {
   margin: 0;
