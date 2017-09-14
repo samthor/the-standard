@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>The Standard</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Lobster|Lato:400,700|Roboto:300,300i,400,400i,700,700i" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="elements.js"></script>
+</head>
+<body style="height: 100vh">
+
+<style>
+  body {
+    background: white;
+  }
+  @keyframes alpha {
+    from {transform: rotateY(-30deg);}
+    to   {transform: rotateY(30deg);}
+  }
+  @keyframes beta {
+    from {transform: rotateX(-30deg);}
+    to   {transform: rotateX(30deg);}
+  }
+  @keyframes gamma {
+    from {transform: rotateZ(-20deg);}
+    to   {transform: rotateZ(20deg);}
+  }
+  .perspective {
+    transform-style: preserve-3d;
+    animation: alpha 2s infinite ease-in-out alternate;
+  }
+  .perspective.anim-beta {
+    animation-name: beta;
+  }
+  .perspective.anim-gamma {
+    animation-name: gamma;
+  }
+  ts-device {
+    transform: rotateY(30deg) rotateX(10deg);
+  }
+  ts-device div {
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: black;
+    font-size: 32px;
+  }
+</style>
+
+<div style="display: flex; justify-content: space-around; height: 100vh; align-items: center; perspective: 2000px; transform-style: preserve-3d;">
+
+<div class="perspective anim-alpha">
+  <ts-device id="device" device="tablet">
+    <div>Alpha</div>
+  </ts-device>
+</div>
+<div class="perspective anim-beta">
+  <ts-device id="device" device="tablet">
+    <div>Beta</div>
+  </ts-device>
+</div>
+<div class="perspective anim-gamma">
+  <ts-device id="device" device="tablet">
+    <div>Gamma</div>
+  </ts-device>
+</div>
+
+</div>
+
+</body>
+</html>
